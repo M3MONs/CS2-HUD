@@ -28,7 +28,6 @@ class Weapon(GSIBaseModel):
 
 
 class Player(GSIBaseModel):
-    steamid: str
     name: str
     team: Optional[str] = None
     state: PlayerState
