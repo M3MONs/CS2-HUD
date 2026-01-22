@@ -5,22 +5,20 @@ from fastapi.requests import Request
 from state import game_state_store
 from models.gsi import GSIPayload
 from pydantic import ValidationError
-from fastapi.background import BackgroundTasks
 
 app = FastAPI()
 
 
 @app.post("/gsi")
-async def update_gsi(request: Request, background_tasks: BackgroundTasks):
+async def update_gsi(request: Request) -> HTTPStatus:
     raw_data = await request.json()
     try:
         payload = GSIPayload(**raw_data)
         data_to_store = payload.model_dump(exclude_unset=True)
-        background_tasks.add_task(game_state_store.update, data_to_store)
+        game_state_store.update(data_to_store)
     except ValidationError as e:
-        # TODO: log the validation error
         print("Validation error:", e)
-        background_tasks.add_task(game_state_store.update, raw_data)
+        game_state_store.update(raw_data)
 
     return HTTPStatus.OK
 
