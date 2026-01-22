@@ -1,5 +1,7 @@
 from threading import Lock
 from typing import Any, Dict
+from event_emitter import EventEmitter
+
 
 class GameStateStore:
     """
@@ -9,10 +11,13 @@ class GameStateStore:
     def __init__(self) -> None:
         self._lock = Lock()
         self._state: Dict[str, Any] = {}
+        self.events = EventEmitter()
 
     def update(self, new_state: Dict[str, Any]) -> None:
         with self._lock:
             self._state = new_state
+
+        self.events.emit(new_state)
 
     def snapshot(self) -> Dict[str, Any]:
         with self._lock:
