@@ -1,6 +1,6 @@
 from threading import Lock
 from typing import Any, Dict
-from event_emitter import EventEmitter
+from core.event_emitter import EventEmitter
 
 
 class GameStateStore:
