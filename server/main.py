@@ -1,46 +1,8 @@
-import asyncio
-from http import HTTPStatus
-from fastapi import FastAPI, WebSocket, WebSocketDisconnect
-from fastapi.requests import Request
-from core.state import game_state_store
-from models.gsi import GSIPayload
-from pydantic import ValidationError
+from fastapi import FastAPI
+from api.gsi import router as gsi_router
+from api.websocket import router as ws_router
 
 app = FastAPI()
 
-
-@app.post("/gsi")
-async def update_gsi(request: Request) -> HTTPStatus:
-    raw_data = await request.json()
-    try:
-        payload = GSIPayload(**raw_data)
-        data_to_store = payload.model_dump(exclude_unset=True)
-        game_state_store.update(data_to_store)
-    except ValidationError as e:
-        print("Validation error:", e)
-        game_state_store.update(raw_data)
-
-    return HTTPStatus.OK
-
-
-@app.websocket("/ws")
-async def ws_endpoint(ws: WebSocket) -> None:
-    await ws.accept()
-
-    await ws.send_json(game_state_store.snapshot())
-
-    queue: asyncio.Queue = asyncio.Queue()
-
-    def on_update(state: dict) -> None:
-        queue.put_nowait(state)
-
-    game_state_store.events.subscribe(on_update)
-
-    try:
-        while True:
-            state = await queue.get()
-            await ws.send_json(state)
-    except WebSocketDisconnect:
-        pass
-    finally:
-        game_state_store.events.unsubscribe(on_update)
+app.include_router(gsi_router)
+app.include_router(ws_router)
