@@ -2,7 +2,7 @@ import asyncio
 from http import HTTPStatus
 from fastapi import FastAPI, WebSocket, WebSocketDisconnect
 from fastapi.requests import Request
-from state import game_state_store
+from core.state import game_state_store
 from models.gsi import GSIPayload
 from pydantic import ValidationError
 
