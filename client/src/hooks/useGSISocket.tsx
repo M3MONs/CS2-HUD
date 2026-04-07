@@ -1,31 +1,60 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useCallback } from "react";
 import { useHUDStore } from "@/stores/HudStore";
 
 export const useGSISocket = () => {
-    const { updateState, setConnected } = useHUDStore();
-    const socketRef = useRef<WebSocket | null>(null);
+    const updateState = useHUDStore((s) => s.updateState);
+    const setConnected = useHUDStore((s) => s.setConnected);
+
+    const updateStateRef = useRef(updateState);
+    const setConnectedRef = useRef(setConnected);
 
     useEffect(() => {
-        const connect = () => {
-            const ws = new WebSocket(`ws://${window.location.hostname}:8000/ws`);
+        updateStateRef.current = updateState;
+    }, [updateState]);
+    
+    useEffect(() => {
+        setConnectedRef.current = setConnected;
+    }, [setConnected]);
 
-            ws.onopen = () => setConnected(true);
-            ws.onclose = () => {
-                setConnected(false);
-                setTimeout(connect, 2000);
-            };
+    const connect = useCallback(() => {
+        const ws = new WebSocket(`ws://${window.location.hostname}:8000/ws`);
+        socketRef.current = ws;
 
-            ws.onmessage = (event) => {
-                const parsed = JSON.parse(event.data);
-                if (parsed.map || parsed.player) {
-                    updateState(parsed);
-                }
-            };
+        ws.onopen = () => setConnectedRef.current(true);
 
-            socketRef.current = ws;
+        ws.onclose = () => {
+            setConnectedRef.current(false);
+            reconnectTimerRef.current = window.setTimeout(connect, 2000);
         };
 
-        connect();
-        return () => socketRef.current?.close();
+        ws.onerror = (err) => {
+            console.error("[GSI] WebSocket error:", err);
+            ws.close();
+        };
+
+        ws.onmessage = (event) => {
+            try {
+                const parsed = JSON.parse(event.data);
+                if (parsed?.map || parsed?.player) {
+                    updateStateRef.current(parsed);
+                }
+            } catch (err) {
+                console.warn("[GSI] Failed to parse message:", err);
+            }
+        };
     }, []);
+
+    const socketRef = useRef<WebSocket | null>(null);
+    const reconnectTimerRef = useRef<number | null>(null);
+
+    useEffect(() => {
+        connect();
+
+        return () => {
+            if (reconnectTimerRef.current) {
+                clearTimeout(reconnectTimerRef.current);
+            }
+            socketRef.current?.close();
+        };
+    }, [connect]);
 };
