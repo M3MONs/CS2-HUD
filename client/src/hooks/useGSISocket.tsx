@@ -1,5 +1,5 @@
 import { useEffect, useRef } from "react";
-import { useHUDStore } from "../stores/HudStore";
+import { useHUDStore } from "@/stores/HudStore";
 
 export const useGSISocket = () => {
     const { updateState, setConnected } = useHUDStore();
