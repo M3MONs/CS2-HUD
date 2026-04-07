@@ -1,4 +1,4 @@
-import { useGSISocket } from "./hooks/useGSISocket";
+import { useGSISocket } from "@/hooks/useGSISocket";
 
 const App = () => {
     useGSISocket();

@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import { type GSIPayload } from '../types/gsi';
+import { type GSIPayload } from '@/types/gsi';
 
 interface HUDState {
     data: GSIPayload | null;
