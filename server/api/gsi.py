@@ -10,6 +10,7 @@ router = APIRouter()
 
 @router.post("/gsi")
 async def update_gsi(request: Request) -> HTTPStatus:
+    """Endpoint to receive game state updates from CS2's Game State Integration."""
     raw_data = await request.json()
     try:
         payload = GSIPayload(**raw_data)
