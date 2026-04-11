@@ -7,10 +7,9 @@ router = APIRouter()
 
 @router.websocket("/ws")
 async def ws_endpoint(ws: WebSocket) -> None:
+    """WebSocket endpoint for clients to receive real-time game state updates."""
     await ws.accept()
-
     await ws.send_json(game_state_store.snapshot())
-
     queue: asyncio.Queue = asyncio.Queue()
 
     def on_update(state: dict) -> None:
