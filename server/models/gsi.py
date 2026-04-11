@@ -7,6 +7,7 @@ class GSIBaseModel(BaseModel):
 
 
 class PlayerState(GSIBaseModel):
+    """Represents the state of a player in the game."""
     health: int
     armor: int
     helmet: bool
@@ -19,6 +20,7 @@ class PlayerState(GSIBaseModel):
 
 
 class Weapon(GSIBaseModel):
+    """Represents a weapon in the game."""
     name: str
     type: str
     state: str
@@ -28,6 +30,7 @@ class Weapon(GSIBaseModel):
 
 
 class Player(GSIBaseModel):
+    """Represents a player in the game."""
     name: str
     team: Optional[str] = None
     state: PlayerState
@@ -37,6 +40,7 @@ class Player(GSIBaseModel):
 
 
 class MapState(GSIBaseModel):
+    """Represents the state of the map in the game."""
     name: str
     phase: str
     team_ct: Dict[str, Any]
@@ -44,6 +48,7 @@ class MapState(GSIBaseModel):
 
 
 class GSIPayload(GSIBaseModel):
+    """Represents the payload sent by CS2's Game State Integration."""
     provider: Dict[str, Any]
     map: Optional[MapState] = None
     player: Optional[Player] = None
