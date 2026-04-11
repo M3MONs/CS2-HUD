@@ -12,15 +12,18 @@ class EventEmitter:
         self._subscribers: List[Callable[[Any], None]] = []
 
     def subscribe(self, callback: Callable[[Any], None]) -> None:
+        """Adds a subscriber callback to be called when an event is emitted."""
         with self._lock:
             self._subscribers.append(callback)
 
     def unsubscribe(self, callback: Callable[[Any], None]) -> None:
+        """Removes a subscriber callback."""
         with self._lock:
             if callback in self._subscribers:
                 self._subscribers.remove(callback)
 
     def emit(self, data: Any) -> None:
+        """Emits an event to all subscribers with the provided data."""
         with self._lock:
             current_subscribers = list(self._subscribers)
 
