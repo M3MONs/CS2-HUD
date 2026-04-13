@@ -17,7 +17,7 @@ export const useGSISocket = () => {
     }, [setConnected]);
 
     const connect = useCallback(() => {
-        const ws = new WebSocket(`ws://${window.location.hostname}:8000/ws`);
+        const ws = new WebSocket(`ws://${window.location.host}/ws`);
         socketRef.current = ws;
 
         ws.onopen = () => setConnectedRef.current(true);
