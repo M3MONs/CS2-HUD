@@ -1,7 +1,7 @@
 import json
 import logging
 from pathlib import Path
-from threading import Lock
+from threading import RLock
 
 from models.config import HudConfig, HudTheme
 
@@ -12,7 +12,7 @@ class ConfigManager:
     """Manages the HUD configuration, providing thread-safe access and modification."""
 
     def __init__(self) -> None:
-        self._lock = Lock()
+        self._lock = RLock()
         self._config = self._load()
 
     def _load(self) -> HudConfig:
@@ -24,7 +24,12 @@ class ConfigManager:
                     return HudConfig(**data)
             except Exception as e:
                 logging.error(f"Error loading config: {e}")
-        return HudConfig()
+        default = HudConfig()
+        try:
+            CONFIG_PATH.write_text(default.model_dump_json(indent=2), encoding="utf-8")
+        except Exception as e:
+            logging.warning(f"Could not write default config to disk: {e}")
+        return default
 
     def save(self) -> None:
         """Saves the current HUD configuration to the JSON file."""
@@ -69,7 +74,9 @@ class ConfigManager:
             ValueError: if the resulting config violates cross-field constraints.
         """
         with self._lock:
-            candidate = self._config.model_copy(update=partial_config)
+            current_data = self._config.model_dump()
+            merged = ConfigManager._deep_merge(current_data, partial_config)
+            candidate = HudConfig(**merged)
             self._validate_integrity(candidate)
             self._config = candidate
             self.save()
