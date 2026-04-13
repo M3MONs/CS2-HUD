@@ -8,7 +8,7 @@ class HudElementVisibility(BaseModel):
     scoreboard: bool = True
     player_stats: bool = True
     killfeed: bool = True
-    minmap: bool = True
+    minimap: bool = True
     bomb_timer: bool = True
     round_info: bool = True
     team_economy: bool = True
