@@ -10,6 +10,7 @@ export interface GSIPayload {
 
 export interface GSIPlayer {
     steamid: string;
+    avatar?: string;
     name: string;
     observer_slot: number;
     team: "CT" | "T";
