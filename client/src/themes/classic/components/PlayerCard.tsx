@@ -55,8 +55,21 @@ export const PlayerCard = ({
                 "--c-money-size": observed ? "11px" : "9px",
                 "--c-money": C.money,
                 "--c-money-opacity": dead ? "0.35" : "0.75",
+                "--c-avatar-filter": dead ? "grayscale(1) brightness(0.5)" : "none",
             } as React.CSSProperties}
         >
+            {/* Avatar */}
+            {player.avatar && (
+                <div className="classic-player__avatar-wrap">
+                    <img
+                        className="classic-player__avatar"
+                        src={player.avatar}
+                        alt=""
+                        draggable={false}
+                    />
+                </div>
+            )}
+
             {/* ── HP row ── */}
             <div className="classic-player__hp-row">
                 <motion.span
