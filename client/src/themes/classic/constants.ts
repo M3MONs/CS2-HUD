@@ -5,4 +5,5 @@ export const PHASE_L: Record<string, string> = {
     warmup: "WARMUP",
     intermission: "HALF",
     gameover: "END",
+    bomb: "..."
 };
