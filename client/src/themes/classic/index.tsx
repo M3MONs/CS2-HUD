@@ -35,19 +35,16 @@ const BroadcastTheme: React.FC<ThemeProps> = ({ data, elements }) => {
 
     return (
         <>
-            {elements.scoreboard && data.map && (
-                <div className="classic-layout__scoreboard">
+            <div className="classic-layout__top-center">
+                {elements.scoreboard && data.map && (
                     <Scoreboard map={data.map} pc={elements.phase_countdown ? data.phase_countdowns : undefined} />
-                </div>
-            )}
-
-            <AnimatePresence>
-                {elements.bomb_timer && data.bomb && (
-                    <div className="classic-layout__bomb">
-                        <BombTimer bomb={data.bomb} />
-                    </div>
                 )}
-            </AnimatePresence>
+                <AnimatePresence>
+                    {elements.bomb_timer && data.bomb && (
+                        <BombTimer bomb={data.bomb} />
+                    )}
+                </AnimatePresence>
+            </div>
 
             {(elements.team_economy || elements.player_stats) && (
                 <motion.div
