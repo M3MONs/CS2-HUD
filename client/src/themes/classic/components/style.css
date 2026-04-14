@@ -3,23 +3,25 @@
     font-family: var(--c-ff);
     background: var(--c-bg);
     border: 1px solid var(--c-bomb-border);
-    border-radius: 8px;
-    padding: 16px 32px;
+    border-radius: 0 0 6px 6px;
+    padding: 4px 20px;
+    width: 108px;
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 6px;
+    gap: 2px;
     box-shadow: var(--c-bomb-shadow);
     user-select: none;
 }
 .classic-bomb__label {
-    font-size: 9px;
+    font-size: 8px;
     font-weight: 700;
     color: var(--c-w40);
-    letter-spacing: 0.25em;
+    letter-spacing: 0.20em;
+    text-align: center;
 }
 .classic-bomb__timer {
-    font-size: 42px;
+    font-size: 24px;
     font-weight: 800;
     color: var(--c-timer-clr);
     line-height: 1;
@@ -27,8 +29,8 @@
     text-shadow: var(--c-timer-shadow);
 }
 .classic-bomb__progress {
-    width: 100px;
-    height: 3px;
+    width: 48px;
+    height: 2px;
     border-radius: 2px;
     background: var(--c-w08);
     overflow: hidden;
@@ -40,6 +42,18 @@
 }
 
 /* ── PlayerCard ─────────────────────────────────────── */
+.classic-player__avatar-wrap {
+    width: 100%;
+    aspect-ratio: 1;
+    overflow: hidden;
+}
+.classic-player__avatar {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    filter: var(--c-avatar-filter);
+}
 .classic-player {
     font-family: var(--c-ff);
     width: var(--c-player-w);
@@ -237,19 +251,15 @@
 }
 
 /* ── BroadcastTheme layout ──────────────────────────── */
-.classic-layout__scoreboard {
+.classic-layout__top-center {
     position: absolute;
     top: 0;
     left: 50%;
     transform: translateX(-50%);
-    z-index: 10;
-}
-.classic-layout__bomb {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
     z-index: 20;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 .classic-layout__players {
     position: absolute;
