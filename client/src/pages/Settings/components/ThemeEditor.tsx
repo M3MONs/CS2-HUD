@@ -4,6 +4,8 @@ import type { HudTheme, ThemeColors } from "@/types/hudConfig";
 import Field from "./Field";
 import Input from "./Input";
 
+const isHex = (value: string) => /^#[0-9A-Fa-f]{0,6}$/.test(value);
+
 const COLOR_LABELS: Record<keyof ThemeColors, string> = {
     ct_primary: "CT Primary",
     t_primary: "T Primary",
@@ -13,6 +15,32 @@ const COLOR_LABELS: Record<keyof ThemeColors, string> = {
     health_bar: "Health Bar",
     armor_bar: "Armor Bar",
 };
+
+interface ColorFieldProps {
+    label: string;
+    value: string;
+    onChange: (value: string) => void;
+}
+
+const ColorField = ({ label, value, onChange }: ColorFieldProps) => (
+    <div className="min-w-0 flex flex-col gap-1">
+        <span className="truncate text-[10px] text-white/40">{label}</span>
+        <div className="min-w-0 flex items-center gap-1.5">
+            <input
+                type="color"
+                value={isHex(value) ? value : "#000000"}
+                onChange={(e) => onChange(e.target.value)}
+                className="h-7 w-7 shrink-0 cursor-pointer rounded border-0 bg-transparent p-0.5"
+            />
+            <input
+                type="text"
+                value={value}
+                onChange={(e) => onChange(e.target.value)}
+                className="w-full min-w-0 rounded-md bg-white/5 px-2 py-1 text-xs text-white/80 outline-none ring-1 ring-white/10 transition focus:ring-orange-500"
+            />
+        </div>
+    </div>
+);
 
 interface ThemeEditorProps {
     initial: HudTheme;
@@ -29,8 +57,6 @@ const ThemeEditor = ({ initial, isNew, onSave, onCancel }: ThemeEditorProps) => 
 
     const setColor = (key: keyof ThemeColors, value: string) =>
         setDraft((prev) => ({ ...prev, colors: { ...prev.colors, [key]: value } }));
-
-    const isHex = (value: string) => /^#[0-9A-Fa-f]{0,6}$/.test(value);
 
     return (
         <motion.div
@@ -84,23 +110,12 @@ const ThemeEditor = ({ initial, isNew, onSave, onCancel }: ThemeEditorProps) => 
                 <p className="mb-3 text-[11px] font-medium uppercase tracking-wider text-white/30">Colors</p>
                 <div className="grid grid-cols-2 gap-2 sm:grid-cols-3 lg:grid-cols-4">
                     {(Object.keys(draft.colors) as (keyof ThemeColors)[]).map((key) => (
-                        <div key={key} className="min-w-0 flex flex-col gap-1">
-                            <span className="truncate text-[10px] text-white/40">{COLOR_LABELS[key]}</span>
-                            <div className="min-w-0 flex items-center gap-1.5">
-                                <input
-                                    type="color"
-                                    value={isHex(draft.colors[key]) ? draft.colors[key] : "#000000"}
-                                    onChange={(e) => setColor(key, e.target.value)}
-                                    className="h-7 w-7 shrink-0 cursor-pointer rounded border-0 bg-transparent p-0.5"
-                                />
-                                <input
-                                    type="text"
-                                    value={draft.colors[key]}
-                                    onChange={(e) => setColor(key, e.target.value)}
-                                    className="w-full min-w-0 rounded-md bg-white/5 px-2 py-1 text-xs text-white/80 outline-none ring-1 ring-white/10 transition focus:ring-orange-500"
-                                />
-                            </div>
-                        </div>
+                        <ColorField
+                            key={key}
+                            label={COLOR_LABELS[key]}
+                            value={draft.colors[key]}
+                            onChange={(val) => setColor(key, val)}
+                        />
                     ))}
                 </div>
             </div>
