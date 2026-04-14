@@ -1,0 +1,269 @@
+/* ── BombTimer ──────────────────────────────────────── */
+.classic-bomb {
+    font-family: var(--c-ff);
+    background: var(--c-bg);
+    border: 1px solid var(--c-bomb-border);
+    border-radius: 8px;
+    padding: 16px 32px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    box-shadow: var(--c-bomb-shadow);
+    user-select: none;
+}
+.classic-bomb__label {
+    font-size: 9px;
+    font-weight: 700;
+    color: var(--c-w40);
+    letter-spacing: 0.25em;
+}
+.classic-bomb__timer {
+    font-size: 42px;
+    font-weight: 800;
+    color: var(--c-timer-clr);
+    line-height: 1;
+    font-variant-numeric: tabular-nums;
+    text-shadow: var(--c-timer-shadow);
+}
+.classic-bomb__progress {
+    width: 100px;
+    height: 3px;
+    border-radius: 2px;
+    background: var(--c-w08);
+    overflow: hidden;
+}
+.classic-bomb__progress-fill {
+    height: 100%;
+    border-radius: 2px;
+    background: var(--c-timer-clr);
+}
+
+/* ── PlayerCard ─────────────────────────────────────── */
+.classic-player {
+    font-family: var(--c-ff);
+    width: var(--c-player-w);
+    position: relative;
+    overflow: hidden;
+    background: var(--c-bg);
+    border-top: var(--c-player-border-w) solid var(--c-player-border-clr);
+    box-shadow: var(--c-player-shadow);
+    user-select: none;
+    flex-shrink: 0;
+}
+.classic-player__hp-row {
+    display: flex;
+    align-items: baseline;
+    justify-content: center;
+    gap: 3px;
+    padding: var(--c-hp-row-pad);
+}
+.classic-player__hp-num {
+    font-size: var(--c-hp-num-size);
+    font-weight: 800;
+    color: var(--c-hp-num-clr);
+    line-height: 1;
+    font-variant-numeric: tabular-nums;
+}
+.classic-player__armor {
+    font-size: var(--c-armor-size);
+    font-weight: 700;
+    color: var(--c-armor-clr);
+}
+.classic-player__hp-bar {
+    height: 2px;
+    margin: 0 4px;
+    border-radius: 1px;
+    background: var(--c-w08);
+    overflow: hidden;
+}
+.classic-player__hp-fill {
+    height: 100%;
+    border-radius: 1px;
+    background: var(--c-hp-fill-clr);
+}
+.classic-player__name {
+    padding: 3px 4px 1px;
+    text-align: center;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-size: var(--c-name-size);
+    font-weight: var(--c-name-weight);
+    color: var(--c-name-clr);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+}
+.classic-player__kda {
+    display: flex;
+    justify-content: center;
+    gap: 2px;
+    font-size: var(--c-kda-size);
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+    padding: 0 4px;
+    color: var(--c-w40);
+}
+.classic-player__kda-kills  { color: var(--c-w70); }
+.classic-player__kda-div    { color: var(--c-w20); }
+.classic-player__kda-deaths { color: var(--c-dead); }
+.classic-player__money {
+    padding: 2px 4px 4px;
+    text-align: center;
+    font-size: var(--c-money-size);
+    font-weight: 700;
+    color: var(--c-money);
+    font-variant-numeric: tabular-nums;
+    opacity: var(--c-money-opacity);
+}
+.classic-player__dead-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.55);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.classic-player__dead-text {
+    font-size: 9px;
+    font-weight: 800;
+    color: var(--c-dead);
+    letter-spacing: 0.2em;
+}
+
+/* ── Scoreboard ─────────────────────────────────────── */
+.classic-scoreboard {
+    user-select: none;
+    font-family: var(--c-ff);
+}
+.classic-scoreboard__row {
+    display: flex;
+    align-items: stretch;
+}
+.classic-scoreboard__team {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 16px;
+    min-width: 400px;
+    background: var(--c-team-bg);
+    box-shadow: var(--c-team-shadow);
+}
+
+/* CT: label | name | ··· | score */
+.classic-scoreboard__team--ct .classic-scoreboard__score {
+    margin-left: auto;
+}
+
+/* T: score | ··· | name | label */
+.classic-scoreboard__team--t {
+    flex-direction: row-reverse;
+}
+.classic-scoreboard__team--t .classic-scoreboard__team-name {
+    text-align: right;
+}
+.classic-scoreboard__team--t .classic-scoreboard__score {
+    margin-right: auto;
+}
+
+.classic-scoreboard__team-label {
+    font-size: 16px;
+    font-weight: 700;
+    color: rgba(255, 255, 255, 0.55);
+    letter-spacing: 0.12em;
+}
+.classic-scoreboard__team-name {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--c-w90);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 300px;
+}
+.classic-scoreboard__score {
+    font-size: 32px;
+    font-weight: 800;
+    color: var(--c-w);
+    line-height: 1;
+    font-variant-numeric: tabular-nums;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.20);
+}
+.classic-scoreboard__center {
+    background: var(--c-bg);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 4px 20px;
+    min-width: 88px;
+    border-left: 1px solid var(--c-div);
+    border-right: 1px solid var(--c-div);
+    position: relative;
+}
+.classic-scoreboard__round {
+    font-size: 8px;
+    font-weight: 700;
+    color: var(--c-w40);
+    letter-spacing: 0.20em;
+    text-align: center;
+}
+.classic-scoreboard__timer {
+    font-size: 24px;
+    font-weight: 800;
+    color: var(--c-w);
+    line-height: 1;
+    font-variant-numeric: tabular-nums;
+    margin-top: 1px;
+}
+.classic-scoreboard__phase {
+    font-size: 8px;
+    font-weight: 700;
+    color: var(--c-phase-clr);
+    letter-spacing: 0.15em;
+    margin-top: 1px;
+}
+.classic-scoreboard__live-dot {
+    position: absolute;
+    top: 4px;
+    right: 6px;
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background: var(--c-hp-hi);
+    box-shadow: 0 0 5px var(--c-hp-hi);
+}
+
+/* ── BroadcastTheme layout ──────────────────────────── */
+.classic-layout__scoreboard {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 10;
+}
+.classic-layout__bomb {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 20;
+}
+.classic-layout__players {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 10;
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    gap: 2px;
+    padding: 0 16px;
+}
+.classic-layout__spacer {
+    width: 150px;
+    flex-shrink: 0;
+}

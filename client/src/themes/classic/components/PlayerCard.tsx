@@ -2,6 +2,7 @@ import type { GSIPlayer } from "@/types/gsi";
 import { motion } from "framer-motion";
 import { useClassicPalette } from "../useClassicPalette";
 import { hpC } from "../helpers";
+import "./style.css";
 
 export const PlayerCard = ({
     player,
@@ -19,137 +20,95 @@ export const PlayerCard = ({
     const hp = hpC(state.health, C.hp);
     const lowHp = !dead && state.health <= 25;
 
-    /* Observed card is wider & taller */
     const w = observed ? 160 : 100;
 
     return (
         <motion.div
+            className="classic-player"
             layout
             animate={{ opacity: dead ? 0.38 : 1 }}
             transition={{ duration: 0.2 }}
             style={{
-                fontFamily: C.ff,
-                width: w,
-                position: "relative",
-                overflow: "hidden",
-                background: C.bg,
-                borderTop: observed
-                    ? `3px solid ${colors.solid}`
-                    : `2px solid ${dead ? C.dead : colors.solid}`,
-                boxShadow: observed
+                "--c-ff": C.ff,
+                "--c-bg": C.bg,
+                "--c-player-w": `${w}px`,
+                "--c-player-border-w": observed ? "3px" : "2px",
+                "--c-player-border-clr": dead && !observed ? C.dead : colors.solid,
+                "--c-player-shadow": observed
                     ? `0 -4px 20px ${colors.glow}, inset 0 0 20px ${colors.glow}`
                     : "0 1px 4px rgba(0,0,0,0.3)",
-                userSelect: "none",
-                flexShrink: 0,
-            }}
+                "--c-hp-row-pad": observed ? "8px 6px 2px" : "5px 4px 1px",
+                "--c-hp-num-size": observed ? "32px" : "22px",
+                "--c-hp-num-clr": dead ? C.w20 : hp,
+                "--c-armor-size": observed ? "10px" : "8px",
+                "--c-armor-clr": C.armor,
+                "--c-w08": C.w08,
+                "--c-hp-fill-clr": dead ? "transparent" : hp,
+                "--c-name-size": observed ? "12px" : "9px",
+                "--c-name-weight": observed ? "700" : "600",
+                "--c-name-clr": dead ? C.w20 : observed ? C.w : C.w70,
+                "--c-kda-size": observed ? "10px" : "8px",
+                "--c-w40": C.w40,
+                "--c-w70": C.w70,
+                "--c-w20": C.w20,
+                "--c-dead": C.dead,
+                "--c-money-size": observed ? "11px" : "9px",
+                "--c-money": C.money,
+                "--c-money-opacity": dead ? "0.35" : "0.75",
+            } as React.CSSProperties}
         >
             {/* ── HP row ── */}
-            <div
-                style={{
-                    display: "flex",
-                    alignItems: "baseline",
-                    justifyContent: "center",
-                    gap: 3,
-                    padding: observed ? "8px 6px 2px" : "5px 4px 1px",
-                }}
-            >
+            <div className="classic-player__hp-row">
                 <motion.span
+                    className="classic-player__hp-num"
                     animate={lowHp ? { opacity: [1, 0.3, 1] } : { opacity: 1 }}
                     transition={lowHp ? { repeat: Infinity, duration: 0.55 } : {}}
-                    style={{
-                        fontSize: observed ? 32 : 22,
-                        fontWeight: 800,
-                        color: dead ? C.w20 : hp,
-                        lineHeight: 1,
-                        fontVariantNumeric: "tabular-nums",
-                    }}
                 >
                     {dead ? "✕" : state.health}
                 </motion.span>
                 {!dead && state.armor > 0 && (
-                    <span style={{ fontSize: observed ? 10 : 8, fontWeight: 700, color: C.armor }}>
+                    <span className="classic-player__armor">
                         {state.helmet ? "⊕" : "○"}
                     </span>
                 )}
             </div>
 
             {/* HP bar */}
-            <div style={{ height: 2, margin: "0 4px", borderRadius: 1, background: C.w08, overflow: "hidden" }}>
+            <div className="classic-player__hp-bar">
                 <motion.div
+                    className="classic-player__hp-fill"
                     animate={{ width: `${state.health}%` }}
                     transition={{ duration: 0.3, ease: "easeOut" }}
-                    style={{ height: "100%", borderRadius: 1, background: dead ? "transparent" : hp }}
                 />
             </div>
 
             {/* Name */}
-            <div
-                style={{
-                    padding: "3px 4px 1px",
-                    textAlign: "center",
-                    overflow: "hidden",
-                    textOverflow: "ellipsis",
-                    whiteSpace: "nowrap",
-                    fontSize: observed ? 12 : 9,
-                    fontWeight: observed ? 700 : 600,
-                    color: dead ? C.w20 : observed ? C.w : C.w70,
-                    textTransform: "uppercase",
-                    letterSpacing: "0.04em",
-                }}
-            >
-                {name}
-            </div>
+            <div className="classic-player__name">{name}</div>
 
             {/* KDA */}
             {match_stats && (
-                <div
-                    style={{
-                        display: "flex",
-                        justifyContent: "center",
-                        gap: 2,
-                        fontSize: observed ? 10 : 8,
-                        fontWeight: 600,
-                        fontVariantNumeric: "tabular-nums",
-                        padding: "0 4px",
-                        color: C.w40,
-                    }}
-                >
-                    <span style={{ color: C.w70 }}>{match_stats.kills}</span>
-                    <span style={{ color: C.w20 }}>/</span>
+                <div className="classic-player__kda">
+                    <span className="classic-player__kda-kills">{match_stats.kills}</span>
+                    <span className="classic-player__kda-div">/</span>
                     <span>{match_stats.assists}</span>
-                    <span style={{ color: C.w20 }}>/</span>
-                    <span style={{ color: C.dead }}>{match_stats.deaths}</span>
+                    <span className="classic-player__kda-div">/</span>
+                    <span className="classic-player__kda-deaths">{match_stats.deaths}</span>
                 </div>
             )}
 
             {/* Money */}
-            <div
-                style={{
-                    padding: "2px 4px 4px",
-                    textAlign: "center",
-                    fontSize: observed ? 11 : 9,
-                    fontWeight: 700,
-                    color: C.money,
-                    fontVariantNumeric: "tabular-nums",
-                    opacity: dead ? 0.35 : 0.75,
-                }}
-            >
-                ${state.money >= 10000 ? `${(state.money / 1000).toFixed(0)}k` : state.money >= 1000 ? `${(state.money / 1000).toFixed(1)}k` : state.money}
+            <div className="classic-player__money">
+                ${state.money >= 10000
+                    ? `${(state.money / 1000).toFixed(0)}k`
+                    : state.money >= 1000
+                    ? `${(state.money / 1000).toFixed(1)}k`
+                    : state.money}
             </div>
 
             {/* Dead overlay */}
             {dead && (
-                <div
-                    style={{
-                        position: "absolute",
-                        inset: 0,
-                        background: "rgba(0,0,0,0.55)",
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "center",
-                    }}
-                >
-                    <span style={{ fontSize: 9, fontWeight: 800, color: C.dead, letterSpacing: "0.2em" }}>DEAD</span>
+                <div className="classic-player__dead-overlay">
+                    <span className="classic-player__dead-text">DEAD</span>
                 </div>
             )}
         </motion.div>

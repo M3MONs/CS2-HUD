@@ -3,6 +3,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { sorted } from "./helpers";
 import { Scoreboard, PlayerCard, BombTimer } from "./components";
 import type { GSIPlayer } from "@/types/gsi";
+import "./components/style.css";
 
 const BroadcastTheme: React.FC<ThemeProps> = ({ data, elements }) => {
     const all = data.allplayers ? Object.values(data.allplayers) : [];
@@ -35,14 +36,14 @@ const BroadcastTheme: React.FC<ThemeProps> = ({ data, elements }) => {
     return (
         <>
             {elements.scoreboard && data.map && (
-                <div style={{ position: "absolute", top: 0, left: "50%", transform: "translateX(-50%)", zIndex: 10 }}>
+                <div className="classic-layout__scoreboard">
                     <Scoreboard map={data.map} pc={elements.phase_countdown ? data.phase_countdowns : undefined} />
                 </div>
             )}
 
             <AnimatePresence>
                 {elements.bomb_timer && data.bomb && (
-                    <div style={{ position: "absolute", top: "50%", left: "50%", transform: "translate(-50%,-50%)", zIndex: 20 }}>
+                    <div className="classic-layout__bomb">
                         <BombTimer bomb={data.bomb} />
                     </div>
                 )}
@@ -50,21 +51,10 @@ const BroadcastTheme: React.FC<ThemeProps> = ({ data, elements }) => {
 
             {(elements.team_economy || elements.player_stats) && (
                 <motion.div
+                    className="classic-layout__players"
                     initial={{ y: 30, opacity: 0 }}
                     animate={{ y: 0, opacity: 1 }}
                     transition={{ type: "spring", stiffness: 280, damping: 28, delay: 0.08 }}
-                    style={{
-                        position: "absolute",
-                        bottom: 0,
-                        left: 0,
-                        right: 0,
-                        zIndex: 10,
-                        display: "flex",
-                        justifyContent: "center",
-                        alignItems: "flex-end",
-                        gap: 2,
-                        padding: "0 16px",
-                    }}
                 >
                     {elements.team_economy &&
                         ctPlayers.map((p) => (
@@ -77,7 +67,7 @@ const BroadcastTheme: React.FC<ThemeProps> = ({ data, elements }) => {
                         ))}
 
                     {elements.team_economy && ctPlayers.length > 0 && tPlayers.length > 0 && (
-                        <div style={{ width: 150, flexShrink: 0 }} />
+                        <div className="classic-layout__spacer" />
                     )}
 
                     {elements.team_economy &&
