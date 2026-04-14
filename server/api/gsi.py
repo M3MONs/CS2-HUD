@@ -1,11 +1,14 @@
+import asyncio
 from http import HTTPStatus
 from fastapi import APIRouter
 from fastapi.requests import Request
 from core.state import game_state_store
+from core.avatar_cache import avatar_cache
 from models.gsi import GSIPayload
 from pydantic import ValidationError
 
 router = APIRouter()
+_tasks: set[asyncio.Task] = set()
 
 
 @router.post("/gsi")
@@ -15,9 +18,19 @@ async def update_gsi(request: Request) -> HTTPStatus:
     try:
         payload = GSIPayload(**raw_data)
         data_to_store = payload.model_dump(exclude_unset=True)
-        game_state_store.update(data_to_store)
     except ValidationError as e:
         print("Validation error:", e)
-        game_state_store.update(raw_data)
+        data_to_store = raw_data
 
+    # TODO: Move to separate task and function to avoid blocking the request handler
+    if "allplayers" in data_to_store:
+        steamids = list(data_to_store["allplayers"].keys())
+        task = asyncio.create_task(avatar_cache.fetch(steamids))
+        _tasks.add(task)
+        task.add_done_callback(_tasks.discard)
+        for steamid, player in data_to_store["allplayers"].items():
+            player["steamid"] = steamid
+            player["avatar"] = avatar_cache.get(steamid)
+
+    game_state_store.update(data_to_store)
     return HTTPStatus.OK
