@@ -31,6 +31,8 @@ class Weapon(GSIBaseModel):
 
 class Player(GSIBaseModel):
     """Represents a player in the game."""
+    steamid: Optional[str] = None
+    avatar: Optional[str] = None
     name: str
     team: Optional[str] = None
     state: PlayerState
