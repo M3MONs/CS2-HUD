@@ -8,6 +8,21 @@ export interface GSIPayload {
     phase_countdowns?: { phase: string; phase_ends_in: string };
 }
 
+export interface GSIPosition {
+    x: number;
+    y: number;
+    z?: number;
+}
+
+export interface GSIWeapon {
+    name: string;
+    type: string;
+    state: string;
+    ammo_clip?: number;
+    ammo_clip_max?: number;
+    ammo_reserve?: number;
+}
+
 export interface GSIPlayer {
     steamid: string;
     avatar?: string;
@@ -22,8 +37,11 @@ export interface GSIPlayer {
         round_kills: number;
         flashed: number;
     };
-    weapons: Record<string, any>;
+    weapons: Record<string, GSIWeapon>;
     match_stats: { kills: number; deaths: number; assists: number };
+    position?: string | GSIPosition | [number, number, number?] | number[];
+    forward?: string | GSIPosition | [number, number, number?] | number[];
+    activity?: string;
 }
 
 export interface GSIMap {
