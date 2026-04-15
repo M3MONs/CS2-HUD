@@ -7,6 +7,7 @@ type MapCalibration = {
     scale: number;
 };
 
+// Map calibrations are based on the radar images from
 const MAP_CALIBRATION: Record<string, MapCalibration> = {
     de_ancient: { posX: -2953, posY: 2164, scale: 5 },
     de_anubis: { posX: -2796, posY: 3328, scale: 5.22 },
@@ -19,12 +20,23 @@ const MAP_CALIBRATION: Record<string, MapCalibration> = {
     de_vertigo: { posX: -3168, posY: 1762, scale: 4 },
 };
 
+// For maps without calibration, we'll use live player positions to estimate the radar.
 const RADAR_SIZE = 1024;
 
+/**
+ * Sort players by their observer slot, which generally corresponds to their position in the radar and UI.
+ * @param p Array of GSIPlayer objects to be sorted.
+ * @returns A new array of GSIPlayer objects sorted by their observer slot.
+ */
 export function sorted(p: GSIPlayer[]) {
     return [...p].sort((a, b) => (a.observer_slot ?? 0) - (b.observer_slot ?? 0));
 }
 
+/**
+ * Normalize map names by trimming, converting to lowercase, and ensuring they start with a known prefix.
+ * @param mapName The name of the map to normalize.
+ * @returns The normalized map name.
+ */
 export function normalizeMapName(mapName: string | undefined) {
     if (!mapName) return "";
     const cleaned = mapName.trim().toLowerCase();
@@ -34,18 +46,33 @@ export function normalizeMapName(mapName: string | undefined) {
         : `de_${cleaned}`;
 }
 
+/**
+ * Generate the URL for the radar image based on the map name.
+ * @param mapName The name of the map for which to generate the radar image URL.
+ * @returns The URL of the radar image.
+ */
 export function radarImageUrl(mapName: string | undefined) {
     const normalized = normalizeMapName(mapName);
     if (!normalized) return "";
     return `https://raw.githubusercontent.com/MurkyYT/cs2-map-icons/main/images/radars/${normalized}_radar_psd.png`;
 }
 
+/**
+ * Generate the URL for the fallback map image based on the map name.
+ * @param mapName The name of the map for which to generate the fallback map image URL.
+ * @returns The URL of the fallback map image.
+ */
 export function fallbackMapImageUrl(mapName: string | undefined) {
     const normalized = normalizeMapName(mapName);
     if (!normalized) return "";
     return `https://raw.githubusercontent.com/MurkyYT/cs2-map-icons/main/images/${normalized}.png`;
 }
 
+/**
+ * Parse a position from various formats (string, array, or object) into a standardized GSIPosition object.
+ * @param position The position to parse, which can be a string, array, or object.
+ * @returns A GSIPosition object if parsing is successful, otherwise null.
+ */
 export function parsePosition(position: GSIPlayer["position"] | string | undefined): GSIPosition | null {
     if (!position) return null;
 
@@ -71,6 +98,13 @@ export function parsePosition(position: GSIPlayer["position"] | string | undefin
     return null;
 }
 
+/**
+ * Convert world coordinates to radar coordinates using map calibration if available, or live bounds as a fallback.
+ * @param mapName The name of the map, used to determine if calibration data is available.
+ * @param point The world coordinates to convert.
+ * @param liveBounds The live bounds of the map, used if calibration data is not available.
+ * @returns The radar coordinates.
+ */
 export function worldToRadar(
     mapName: string | undefined,
     point: GSIPosition,
@@ -102,16 +136,32 @@ export function worldToRadar(
     return { x: 50, y: 50, calibrated: false };
 }
 
+/**
+ * Pick the active weapon of a player, or fallback to the first available weapon.
+ * @param player The player whose weapons are being evaluated.
+ * @returns The active weapon, or the first available weapon if no active weapon is found.
+ */
 export function pickActiveWeapon(player: GSIPlayer): GSIWeapon | null {
     const all = Object.values(player.weapons || {});
     if (all.length === 0) return null;
     return all.find((w) => w.state === "active") ?? all[0];
 }
 
+/**
+ * Determine the color based on the player's health.
+ * @param v The player's health value.
+ * @param hp The health color palette.
+ * @returns The color corresponding to the player's health.
+ */
 export function hpC(v: number, hp: ClassicPalette["hp"]) {
     return v > 60 ? hp.hi : v > 25 ? hp.mid : hp.lo;
 }
 
+/**
+ * Get a simplified weapon name for display purposes, prioritizing rifles, then pistols.
+ * @param p The player whose weapons are being evaluated.
+ * @returns The simplified weapon name, or an empty string if no suitable weapon is found.
+ */
 export function wpn(p: GSIPlayer) {
     const ws = Object.values(p.weapons || {});
     const m = ws.find((w) => ["rifle", "sniperrifle", "submachinegun", "shotgun", "machinegun"].includes(w.type));
@@ -124,6 +174,12 @@ export function wpn(p: GSIPlayer) {
         .toUpperCase();
 }
 
+/**
+ *  Determine the color to use for a team based on its name, using the provided palette.
+ * @param team The team name, expected to be "CT" or "T".
+ * @param palette The color palette containing colors for both teams.
+ * @returns The color corresponding to the team.
+ */
 export function tc(team: string, palette: ClassicPalette) {
     return team === "CT" ? palette.ct : palette.t;
 }
