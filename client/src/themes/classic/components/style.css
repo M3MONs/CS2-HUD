@@ -277,3 +277,142 @@
     width: 150px;
     flex-shrink: 0;
 }
+
+.classic-layout__radar {
+    position: absolute;
+    left: 20px;
+    top: 20px;
+    z-index: 15;
+}
+
+/* ── RadarMap ───────────────────────────────────────── */
+.classic-radar {
+    width: 260px;
+    font-family: var(--c-ff, "Inter");
+    user-select: none;
+}
+
+.classic-radar__viewport {
+    width: 100%;
+    aspect-ratio: 1;
+    position: relative;
+    overflow: hidden;
+    border-radius: 4px;
+    border: 1px solid var(--c-radar-border);
+    background: rgba(0, 0, 0, 0.55);
+}
+
+.classic-radar__map {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    opacity: 0.9;
+}
+
+.classic-radar__empty {
+    width: 100%;
+    height: 100%;
+    display: grid;
+    place-items: center;
+    color: var(--c-radar-text);
+    font-size: 12px;
+}
+
+.classic-radar__marker {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    border: 1px solid rgba(255, 255, 255, 0.75);
+    display: grid;
+    place-items: center;
+    font-size: 9px;
+    font-weight: 700;
+    color: rgba(255, 255, 255, 0.95);
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.7);
+    will-change: transform;
+}
+
+.classic-radar__marker--ct {
+    background: color-mix(in srgb, var(--c-radar-ct), black 25%);
+    box-shadow: 0 0 8px color-mix(in srgb, var(--c-radar-ct), transparent 35%);
+}
+
+.classic-radar__marker--t {
+    background: color-mix(in srgb, var(--c-radar-t), black 25%);
+    box-shadow: 0 0 8px color-mix(in srgb, var(--c-radar-t), transparent 35%);
+}
+
+.classic-radar__marker--flashed {
+    box-shadow: 0 0 0 3px var(--c-radar-flash), 0 0 12px var(--c-radar-flash);
+}
+
+.classic-radar__marker--shooting::after {
+    content: "";
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    border: 2px solid var(--c-radar-shot);
+    opacity: 0.95;
+    animation: classic-radar-shot 150ms ease-out;
+}
+
+.classic-radar__marker--dead {
+    background: color-mix(in srgb, var(--c-radar-dead), black 45%);
+    border-color: color-mix(in srgb, var(--c-radar-dead), white 25%);
+}
+
+.classic-radar__slot {
+    line-height: 1;
+}
+
+.classic-radar__bomb-dot {
+    position: absolute;
+    right: -2px;
+    bottom: -2px;
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--c-radar-bomb);
+    box-shadow: 0 0 6px var(--c-radar-bomb);
+    border: 1px solid rgba(0, 0, 0, 0.5);
+}
+
+.classic-radar__planted-bomb {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 10px;
+    height: 10px;
+    border-radius: 2px;
+    background: var(--c-radar-bomb);
+    box-shadow: 0 0 10px var(--c-radar-bomb);
+    border: 1px solid rgba(255, 255, 255, 0.65);
+    will-change: transform;
+}
+
+@keyframes classic-radar-shot {
+    from {
+        transform: scale(0.2);
+        opacity: 0.95;
+    }
+    to {
+        transform: scale(1.1);
+        opacity: 0;
+    }
+}
+
+@media (max-width: 900px) {
+    .classic-layout__radar {
+        left: 10px;
+        top: 10px;
+    }
+
+    .classic-radar {
+        width: min(44vw, 220px);
+    }
+}

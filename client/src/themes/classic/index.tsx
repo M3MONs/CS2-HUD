@@ -1,7 +1,7 @@
 import type { ThemeProps } from "../registry";
 import { AnimatePresence, motion } from "framer-motion";
 import { sorted } from "./helpers";
-import { Scoreboard, PlayerCard, BombTimer } from "./components";
+import { Scoreboard, PlayerCard, BombTimer, RadarMap } from "./components";
 import type { GSIPlayer } from "@/types/gsi";
 import "./components/style.css";
 
@@ -32,6 +32,7 @@ const BroadcastTheme: React.FC<ThemeProps> = ({ data, elements }) => {
     const ctPlayers = pickTeamPlayers("CT");
     const tPlayers = pickTeamPlayers("T");
     const selfId = data.player?.steamid;
+    const radarPlayers = [...ctPlayers, ...tPlayers];
 
     return (
         <>
@@ -76,6 +77,21 @@ const BroadcastTheme: React.FC<ThemeProps> = ({ data, elements }) => {
                                 side="t"
                             />
                         ))}
+                </motion.div>
+            )}
+
+            {elements.minimap && (
+                <motion.div
+                    className="classic-layout__radar"
+                    initial={{ x: -20, opacity: 0 }}
+                    animate={{ x: 0, opacity: 1 }}
+                    transition={{ duration: 0.25, ease: "easeOut" }}
+                >
+                    <RadarMap
+                        mapName={data.map?.name}
+                        players={radarPlayers}
+                        bombPosition={data.bomb?.position}
+                    />
                 </motion.div>
             )}
         </>
