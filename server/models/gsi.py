@@ -29,6 +29,13 @@ class Weapon(GSIBaseModel):
     ammo_reserve: Optional[int] = None
 
 
+class Vec3(GSIBaseModel):
+    """Represents 3D world coordinates."""
+    x: float
+    y: float
+    z: float
+
+
 class Player(GSIBaseModel):
     """Represents a player in the game."""
     steamid: Optional[str] = None
@@ -39,6 +46,9 @@ class Player(GSIBaseModel):
     weapons: Optional[Dict[str, Weapon]] = None
     match_stats: Optional[Dict[str, int]] = None
     observer_slot: Optional[int] = None
+    position: Optional[str | Vec3 | list[float]] = None
+    forward: Optional[str | Vec3 | list[float]] = None
+    activity: Optional[str] = None
 
 
 class MapState(GSIBaseModel):
