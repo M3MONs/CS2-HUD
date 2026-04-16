@@ -1,8 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import type { GSIPlayer } from "@/types/gsi";
 import { pickActiveWeapon } from "../helpers";
-
-const SHOOTING_TTL_MS = 150;
+import { SHOOTING_TTL_MS } from "../constants";
 
 export function useShootingDetection(players: GSIPlayer[]) {
     const previousAmmoRef = useRef<Map<string, number>>(new Map());
