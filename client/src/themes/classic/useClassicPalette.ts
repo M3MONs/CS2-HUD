@@ -1,60 +1,16 @@
 import { useMemo } from "react";
 import { useHudConfigStore } from "@/stores/HudConfigStore";
 import { defaultTheme } from "@/consts/defaultTheme";
+import { withAlpha, teamPalette } from "./helpers";
+import type { ClassicPalette } from "./types";
 
-type RGBA = { r: number; g: number; b: number; a: number };
+export type { ClassicPalette } from "./types";
 
-function parseColor(input: string): RGBA | null {
-    const s = input.trim();
-
-    const hex = s.match(/^#([0-9a-fA-F]{3,8})$/);
-    if (hex) {
-        let h = hex[1];
-        if (h.length === 3) h = h.split("").map((c) => c + c).join("");
-        if (h.length === 4) h = h.split("").map((c) => c + c).join("");
-        if (h.length === 6) h += "ff";
-        if (h.length !== 8) return null;
-        return {
-            r: parseInt(h.slice(0, 2), 16),
-            g: parseInt(h.slice(2, 4), 16),
-            b: parseInt(h.slice(4, 6), 16),
-            a: parseInt(h.slice(6, 8), 16) / 255,
-        };
-    }
-
-    const rgb = s.match(
-        /^rgba?\(\s*([\d.]+)[,\s]+([\d.]+)[,\s]+([\d.]+)(?:[,\s/]+([\d.]+%?))?\s*\)$/i,
-    );
-    if (rgb) {
-        const a = rgb[4] ? (rgb[4].endsWith("%") ? parseFloat(rgb[4]) / 100 : +rgb[4]) : 1;
-        return { r: +rgb[1], g: +rgb[2], b: +rgb[3], a };
-    }
-
-    return null;
-}
-
-function withAlpha(color: string, alpha: number): string {
-    const c = parseColor(color);
-    if (!c) return color;
-    return `rgba(${Math.round(c.r)}, ${Math.round(c.g)}, ${Math.round(c.b)}, ${alpha})`;
-}
-
-function darken(color: string, amount: number): string {
-    const c = parseColor(color);
-    if (!c) return color;
-    const f = 1 - amount;
-    return `rgba(${Math.round(c.r * f)}, ${Math.round(c.g * f)}, ${Math.round(c.b * f)}, ${c.a})`;
-}
-
-function teamPalette(base: string) {
-    return {
-        solid: base,
-        grad: `linear-gradient(180deg, ${base} 0%, ${darken(base, 0.15)} 100%)`,
-        glow: withAlpha(base, 0.3),
-    };
-}
-
-export const useClassicPalette = () => {
+/**
+ * Hook to get the classic palette based on the active theme.
+ * @returns The classic palette object.
+ */
+export const useClassicPalette = (): ClassicPalette => {
     const activeThemeId = useHudConfigStore((s) => s.config?.active_theme_id);
     const themes = useHudConfigStore((s) => s.config?.themes);
 
@@ -87,5 +43,3 @@ export const useClassicPalette = () => {
         };
     }, [activeThemeId, themes]);
 };
-
-export type ClassicPalette = ReturnType<typeof useClassicPalette>;
