@@ -1,16 +1,5 @@
 import type { CSSProperties } from "react";
-
-type RadarMarkerDotProps = {
-    steamid: string;
-    name: string;
-    team: "CT" | "T";
-    slot: number;
-    flashed: boolean;
-    shooting: boolean;
-    bombCarrier: boolean;
-    px: number;
-    py: number;
-};
+import type { RadarMarkerDotProps } from "../types";
 
 export const RadarMarkerDot = ({
     steamid,
