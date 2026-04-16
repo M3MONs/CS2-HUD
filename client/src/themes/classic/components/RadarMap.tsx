@@ -1,32 +1,14 @@
 import { useMemo, useState } from "react";
 import type { CSSProperties } from "react";
-import type { GSIPlayer } from "@/types/gsi";
 import { fallbackMapImageUrl, parsePosition, radarImageUrl, worldToRadar } from "../helpers";
 import { useClassicPalette } from "../useClassicPalette";
+import type { RadarMapProps, RadarMarker } from "../types";
 import { PlantedBomb } from "./PlantedBomb";
 import { RadarMarkerDot } from "./RadarMarkerDot";
 import { useShootingDetection } from "./useShootingDetection";
 import { useSmoothRadar } from "./useSmoothRadar";
 import "./style.css";
-
-type RadarMapProps = {
-    mapName?: string;
-    players: GSIPlayer[];
-    bombPosition?: string;
-};
-
-type RadarMarker = {
-    steamid: string;
-    name: string;
-    team: "CT" | "T";
-    slot: number;
-    wx: number;
-    wy: number;
-    wz?: number;
-    health: number;
-    flashed: boolean;
-    bombCarrier: boolean;
-};
+import type { GSIPlayer } from "@/types/gsi";
 
 export const RadarMap = ({ mapName, players, bombPosition }: RadarMapProps) => {
     const C = useClassicPalette();
