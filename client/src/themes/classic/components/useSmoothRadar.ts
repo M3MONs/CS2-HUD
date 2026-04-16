@@ -1,29 +1,16 @@
 import { useEffect, useRef, useState } from "react";
 import { worldToRadar } from "../helpers";
+import { LERP, LERP_BOUNDS, MOVE_THRESHOLD } from "../constants";
+import type { SmoothPos, SmoothBounds, SmoothRadarParams } from "../types";
 
-type SmoothPos = { x: number; y: number };
-type SmoothBounds = { minX: number; maxX: number; minY: number; maxY: number };
-type RadarPos = { x: number; y: number };
-
-type Marker = {
-    steamid: string;
-    wx: number;
-    wy: number;
-    wz?: number;
-};
-
-type Params = {
-    mapName?: string;
-    markers: Marker[];
-    bombRadarPos: RadarPos | null;
-    liveBounds?: SmoothBounds;
-};
-
-const LERP = 0.12;
-const LERP_BOUNDS = 0.1;
-const MOVE_THRESHOLD = 0.02;
-
-export function useSmoothRadar({ mapName, markers, bombRadarPos, liveBounds }: Params) {
+/**
+ * Provide lerp-based smooth animation for radar marker positions and live map bounds.
+ * Runs a requestAnimationFrame loop that interpolates current positions toward targets,
+ * triggering a re-render only when any marker has moved beyond MOVE_THRESHOLD.
+ * @param params Map name, marker world positions, bomb radar position, and optional live bounds.
+ * @returns Refs for smooth positions, bomb position, bounds, and the viewport DOM element.
+ */
+export function useSmoothRadar({ mapName, markers, bombRadarPos, liveBounds }: SmoothRadarParams) {
     const targetPosRef = useRef<Map<string, SmoothPos>>(new Map());
     const smoothPosRef = useRef<Map<string, SmoothPos>>(new Map());
     const targetBombRef = useRef<SmoothPos | null>(null);
