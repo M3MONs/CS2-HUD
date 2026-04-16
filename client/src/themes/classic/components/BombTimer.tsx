@@ -6,9 +6,9 @@ import "./style.css";
 export const BombTimer = ({ bomb }: { bomb: NonNullable<ThemeProps["data"]["bomb"]> }) => {
     const C = useClassicPalette();
     const planted = bomb.state === "planted";
-    const defused = bomb.state === "defused";
     const exploded = bomb.state === "exploded";
-    if (!planted && !defused && !exploded) return null;
+    if (!planted && !exploded) return null;
+    const defused = false;
 
     const sec = parseFloat(bomb.countdown ?? "0");
     const urgent = planted && sec <= 10;
