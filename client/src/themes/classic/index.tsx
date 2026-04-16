@@ -1,7 +1,7 @@
 import type { ThemeProps } from "../registry";
 import { AnimatePresence, motion } from "framer-motion";
 import { sorted } from "./helpers";
-import { Scoreboard, PlayerCard, BombTimer, RadarMap } from "./components";
+import { Scoreboard, PlayerCard, BombTimer, DefuseTimer, RadarMap } from "./components";
 import type { GSIPlayer } from "@/types/gsi";
 import "./components/style.css";
 
@@ -42,7 +42,10 @@ const BroadcastTheme: React.FC<ThemeProps> = ({ data, elements }) => {
                 )}
                 <AnimatePresence>
                     {elements.bomb_timer && data.bomb && (
-                        <BombTimer bomb={data.bomb} />
+                        <BombTimer key="bomb" bomb={data.bomb} />
+                    )}
+                    {elements.bomb_timer && data.bomb && (
+                        <DefuseTimer key="defuse" bomb={data.bomb} />
                     )}
                 </AnimatePresence>
             </div>
