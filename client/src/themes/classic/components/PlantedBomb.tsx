@@ -1,9 +1,4 @@
-type PlantedBombProps = {
-    x: number;
-    y: number;
-    vw: number;
-    vh: number;
-};
+import type { PlantedBombProps } from "../types";
 
 export const PlantedBomb = ({ x, y, vw, vh }: PlantedBombProps) => {
     const px = (x / 100) * vw - 5;
