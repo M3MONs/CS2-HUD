@@ -8,7 +8,7 @@ const BACKEND_URL = 'http://localhost:8000';
 export default defineConfig({
   plugins: [react(), tsconfigPaths()],
   build: {
-    outDir: '../server/build',
+    outDir: '../server/static',
     emptyOutDir: true,
   },
   server: {
