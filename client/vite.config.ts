@@ -7,6 +7,10 @@ const BACKEND_URL = 'http://localhost:8000';
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [react(), tsconfigPaths()],
+  build: {
+    outDir: '../server/build',
+    emptyOutDir: true,
+  },
   server: {
     proxy: {
       '/api': {
