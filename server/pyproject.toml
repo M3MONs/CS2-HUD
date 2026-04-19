@@ -6,4 +6,7 @@ readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
     "fastapi[standard]>=0.128.0",
+    "pillow>=12.2.0",
+    "pyinstaller>=6.19.0",
+    "pystray>=0.19.5",
 ]
