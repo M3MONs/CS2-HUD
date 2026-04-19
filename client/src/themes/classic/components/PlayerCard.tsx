@@ -4,6 +4,82 @@ import { useClassicPalette } from "../useClassicPalette";
 import { hpC } from "../helpers";
 import "./style.css";
 
+const PlayerAvatar = ({ avatar }: { avatar?: string }) =>
+    avatar ? (
+        <div className="classic-player__avatar-wrap">
+            <img className="classic-player__avatar" src={avatar} alt="" draggable={false} />
+        </div>
+    ) : null;
+
+const HpRow = ({
+    health,
+    armor,
+    helmet,
+    lowHp,
+    dead,
+}: {
+    health: number;
+    armor: number;
+    helmet: boolean;
+    lowHp: boolean;
+    dead: boolean;
+}) => (
+    <div className="classic-player__hp-row">
+        <motion.span
+            className="classic-player__hp-num"
+            animate={lowHp ? { opacity: [1, 0.3, 1] } : { opacity: 1 }}
+            transition={lowHp ? { repeat: Infinity, duration: 0.55 } : {}}
+        >
+            {dead ? "✕" : health}
+        </motion.span>
+        {!dead && armor > 0 && (
+            <span className="classic-player__armor">{helmet ? "⊕" : "○"}</span>
+        )}
+    </div>
+);
+
+const HpBar = ({ health }: { health: number }) => (
+    <div className="classic-player__hp-bar">
+        <motion.div
+            className="classic-player__hp-fill"
+            animate={{ width: `${health}%` }}
+            transition={{ duration: 0.3, ease: "easeOut" }}
+        />
+    </div>
+);
+
+const PlayerName = ({ name }: { name: string }) => (
+    <div className="classic-player__name">{name}</div>
+);
+
+const KdaRow = ({ match_stats }: { match_stats: GSIPlayer["match_stats"] }) =>
+    match_stats ? (
+        <div className="classic-player__kda">
+            <span className="classic-player__kda-kills">{match_stats.kills}</span>
+            <span className="classic-player__kda-div">/</span>
+            <span>{match_stats.assists}</span>
+            <span className="classic-player__kda-div">/</span>
+            <span className="classic-player__kda-deaths">{match_stats.deaths}</span>
+        </div>
+    ) : null;
+
+const MoneyDisplay = ({ money }: { money: number }) => (
+    <div className="classic-player__money">
+        $
+        {money >= 10000
+            ? `${(money / 1000).toFixed(0)}k`
+            : money >= 1000
+            ? `${(money / 1000).toFixed(1)}k`
+            : money}
+    </div>
+);
+
+const DeadOverlay = () => (
+    <div className="classic-player__dead-overlay">
+        <span className="classic-player__dead-text">DEAD</span>
+    </div>
+);
+
 export const PlayerCard = ({
     player,
     observed,
@@ -58,72 +134,19 @@ export const PlayerCard = ({
                 "--c-avatar-filter": dead ? "grayscale(1) brightness(0.5)" : "none",
             } as React.CSSProperties}
         >
-            {/* Avatar */}
-            {player.avatar && (
-                <div className="classic-player__avatar-wrap">
-                    <img
-                        className="classic-player__avatar"
-                        src={player.avatar}
-                        alt=""
-                        draggable={false}
-                    />
-                </div>
-            )}
-
-            {/* ── HP row ── */}
-            <div className="classic-player__hp-row">
-                <motion.span
-                    className="classic-player__hp-num"
-                    animate={lowHp ? { opacity: [1, 0.3, 1] } : { opacity: 1 }}
-                    transition={lowHp ? { repeat: Infinity, duration: 0.55 } : {}}
-                >
-                    {dead ? "✕" : state.health}
-                </motion.span>
-                {!dead && state.armor > 0 && (
-                    <span className="classic-player__armor">
-                        {state.helmet ? "⊕" : "○"}
-                    </span>
-                )}
-            </div>
-
-            {/* HP bar */}
-            <div className="classic-player__hp-bar">
-                <motion.div
-                    className="classic-player__hp-fill"
-                    animate={{ width: `${state.health}%` }}
-                    transition={{ duration: 0.3, ease: "easeOut" }}
-                />
-            </div>
-
-            {/* Name */}
-            <div className="classic-player__name">{name}</div>
-
-            {/* KDA */}
-            {match_stats && (
-                <div className="classic-player__kda">
-                    <span className="classic-player__kda-kills">{match_stats.kills}</span>
-                    <span className="classic-player__kda-div">/</span>
-                    <span>{match_stats.assists}</span>
-                    <span className="classic-player__kda-div">/</span>
-                    <span className="classic-player__kda-deaths">{match_stats.deaths}</span>
-                </div>
-            )}
-
-            {/* Money */}
-            <div className="classic-player__money">
-                ${state.money >= 10000
-                    ? `${(state.money / 1000).toFixed(0)}k`
-                    : state.money >= 1000
-                    ? `${(state.money / 1000).toFixed(1)}k`
-                    : state.money}
-            </div>
-
-            {/* Dead overlay */}
-            {dead && (
-                <div className="classic-player__dead-overlay">
-                    <span className="classic-player__dead-text">DEAD</span>
-                </div>
-            )}
+            <PlayerAvatar avatar={player.avatar} />
+            <HpRow
+                health={state.health}
+                armor={state.armor}
+                helmet={state.helmet}
+                lowHp={lowHp}
+                dead={dead}
+            />
+            <HpBar health={state.health} />
+            <PlayerName name={name} />
+            <KdaRow match_stats={match_stats} />
+            <MoneyDisplay money={state.money} />
+            {dead && <DeadOverlay />}
         </motion.div>
     );
 };
