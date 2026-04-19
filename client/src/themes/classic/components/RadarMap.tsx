@@ -72,19 +72,18 @@ export const RadarMap = ({ mapName, players, bombPosition }: RadarMapProps) => {
 
     const radarBackground = useFallbackBg ? fallbackMapImageUrl(mapName) : radarImageUrl(mapName);
 
+    const style = {
+        "--c-ff": C.ff,
+        "--c-radar-ct": C.ct.solid,
+        "--c-radar-t": C.t.solid,
+        "--c-radar-flash": "rgba(255,255,255,0.65)",
+        "--c-radar-shot": C.accent,
+        "--c-radar-dead": C.w20,
+        "--c-radar-bomb": C.accent,
+    } as CSSProperties;
+
     return (
-        <div
-            className="classic-radar"
-            style={{
-                "--c-ff": C.ff,
-                "--c-radar-ct": C.ct.solid,
-                "--c-radar-t": C.t.solid,
-                "--c-radar-flash": "rgba(255,255,255,0.65)",
-                "--c-radar-shot": C.accent,
-                "--c-radar-dead": C.w20,
-                "--c-radar-bomb": C.accent,
-            } as CSSProperties}
-        >
+        <div className="classic-radar" style={style}>
             <div className="classic-radar__viewport" ref={viewportRef}>
                 {radarBackground ? (
                     <img

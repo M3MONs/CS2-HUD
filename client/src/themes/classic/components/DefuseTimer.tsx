@@ -20,22 +20,24 @@ export const DefuseTimer = ({ bomb }: { bomb: BombData }) => {
     const progress = Math.min(sec / totalTime, 1);
     const clr = defused ? C.hp.hi : C.ct.solid;
 
+    const style = {
+        "--c-ff": C.ff,
+        "--c-bg": C.bg,
+        "--c-bomb-border": C.ct.solid,
+        "--c-bomb-shadow": `0 0 24px ${C.ct.glow}, 0 8px 24px rgba(0,0,0,0.5)`,
+        "--c-w40": C.w40,
+        "--c-timer-clr": clr,
+        "--c-timer-shadow": `0 0 18px ${clr}`,
+        "--c-w08": C.w08,
+    } as React.CSSProperties;
+
     return (
         <motion.div
             className="classic-bomb"
             initial={{ scale: 0.88, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             exit={{ scale: 0.88, opacity: 0 }}
-            style={{
-                "--c-ff": C.ff,
-                "--c-bg": C.bg,
-                "--c-bomb-border": C.ct.solid,
-                "--c-bomb-shadow": `0 0 24px ${C.ct.glow}, 0 8px 24px rgba(0,0,0,0.5)`,
-                "--c-w40": C.w40,
-                "--c-timer-clr": clr,
-                "--c-timer-shadow": `0 0 18px ${clr}`,
-                "--c-w08": C.w08,
-            } as React.CSSProperties}
+            style={style}
         >
             <span className="classic-bomb__label">
                 {defused ? "DEFUSED" : "DEFUSING"}

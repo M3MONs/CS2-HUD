@@ -98,41 +98,43 @@ export const PlayerCard = ({
 
     const w = observed ? 160 : 100;
 
+    const style = {
+        "--c-ff": C.ff,
+        "--c-bg": C.bg,
+        "--c-player-w": `${w}px`,
+        "--c-player-border-w": observed ? "3px" : "2px",
+        "--c-player-border-clr": dead && !observed ? C.dead : colors.solid,
+        "--c-player-shadow": observed
+            ? `0 -4px 20px ${colors.glow}, inset 0 0 20px ${colors.glow}`
+            : "0 1px 4px rgba(0,0,0,0.3)",
+        "--c-hp-row-pad": observed ? "8px 6px 2px" : "5px 4px 1px",
+        "--c-hp-num-size": observed ? "32px" : "22px",
+        "--c-hp-num-clr": dead ? C.w20 : hp,
+        "--c-armor-size": observed ? "10px" : "8px",
+        "--c-armor-clr": C.armor,
+        "--c-w08": C.w08,
+        "--c-hp-fill-clr": dead ? "transparent" : hp,
+        "--c-name-size": observed ? "12px" : "9px",
+        "--c-name-weight": observed ? "700" : "600",
+        "--c-name-clr": dead ? C.w20 : observed ? C.w : C.w70,
+        "--c-kda-size": observed ? "10px" : "8px",
+        "--c-w40": C.w40,
+        "--c-w70": C.w70,
+        "--c-w20": C.w20,
+        "--c-dead": C.dead,
+        "--c-money-size": observed ? "11px" : "9px",
+        "--c-money": C.money,
+        "--c-money-opacity": dead ? "0.35" : "0.75",
+        "--c-avatar-filter": dead ? "grayscale(1) brightness(0.5)" : "none",
+    } as React.CSSProperties;
+
     return (
         <motion.div
             className="classic-player"
             layout
             animate={{ opacity: dead ? 0.38 : 1 }}
             transition={{ duration: 0.2 }}
-            style={{
-                "--c-ff": C.ff,
-                "--c-bg": C.bg,
-                "--c-player-w": `${w}px`,
-                "--c-player-border-w": observed ? "3px" : "2px",
-                "--c-player-border-clr": dead && !observed ? C.dead : colors.solid,
-                "--c-player-shadow": observed
-                    ? `0 -4px 20px ${colors.glow}, inset 0 0 20px ${colors.glow}`
-                    : "0 1px 4px rgba(0,0,0,0.3)",
-                "--c-hp-row-pad": observed ? "8px 6px 2px" : "5px 4px 1px",
-                "--c-hp-num-size": observed ? "32px" : "22px",
-                "--c-hp-num-clr": dead ? C.w20 : hp,
-                "--c-armor-size": observed ? "10px" : "8px",
-                "--c-armor-clr": C.armor,
-                "--c-w08": C.w08,
-                "--c-hp-fill-clr": dead ? "transparent" : hp,
-                "--c-name-size": observed ? "12px" : "9px",
-                "--c-name-weight": observed ? "700" : "600",
-                "--c-name-clr": dead ? C.w20 : observed ? C.w : C.w70,
-                "--c-kda-size": observed ? "10px" : "8px",
-                "--c-w40": C.w40,
-                "--c-w70": C.w70,
-                "--c-w20": C.w20,
-                "--c-dead": C.dead,
-                "--c-money-size": observed ? "11px" : "9px",
-                "--c-money": C.money,
-                "--c-money-opacity": dead ? "0.35" : "0.75",
-                "--c-avatar-filter": dead ? "grayscale(1) brightness(0.5)" : "none",
-            } as React.CSSProperties}
+            style={style}
         >
             <PlayerAvatar avatar={player.avatar} />
             <HpRow

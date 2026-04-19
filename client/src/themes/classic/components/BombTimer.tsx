@@ -14,24 +14,26 @@ export const BombTimer = ({ bomb }: { bomb: NonNullable<ThemeProps["data"]["bomb
     const urgent = planted && sec <= 10;
     const clr = defused ? C.hp.hi : exploded ? C.hp.lo : C.t.solid;
 
+    const style = {
+        "--c-ff": C.ff,
+        "--c-bg": C.bg,
+        "--c-bomb-border": urgent ? C.hp.lo : C.div,
+        "--c-bomb-shadow": urgent
+            ? `0 0 36px rgba(212,64,64,0.40), 0 8px 24px rgba(0,0,0,0.5)`
+            : "0 8px 24px rgba(0,0,0,0.5)",
+        "--c-w40": C.w40,
+        "--c-timer-clr": clr,
+        "--c-timer-shadow": planted ? `0 0 18px ${clr}` : "none",
+        "--c-w08": C.w08,
+    } as React.CSSProperties;
+
     return (
         <motion.div
             className="classic-bomb"
             initial={{ scale: 0.88, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             exit={{ scale: 0.88, opacity: 0 }}
-            style={{
-                "--c-ff": C.ff,
-                "--c-bg": C.bg,
-                "--c-bomb-border": urgent ? C.hp.lo : C.div,
-                "--c-bomb-shadow": urgent
-                    ? `0 0 36px rgba(212,64,64,0.40), 0 8px 24px rgba(0,0,0,0.5)`
-                    : "0 8px 24px rgba(0,0,0,0.5)",
-                "--c-w40": C.w40,
-                "--c-timer-clr": clr,
-                "--c-timer-shadow": planted ? `0 0 18px ${clr}` : "none",
-                "--c-w08": C.w08,
-            } as React.CSSProperties}
+            style={style}
         >
             <span className="classic-bomb__label">
                 {defused ? "DEFUSED" : exploded ? "EXPLODED" : "BOMB PLANTED"}
