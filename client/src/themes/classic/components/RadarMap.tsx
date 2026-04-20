@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useMemo, useState, useCallback } from "react";
 import type { CSSProperties } from "react";
 import { fallbackMapImageUrl, parsePosition, radarImageUrl, worldToRadar } from "../helpers";
 import { useClassicPalette } from "../useClassicPalette";
@@ -66,11 +66,14 @@ export const RadarMap = ({ mapName, players, bombPosition }: RadarMapProps) => {
         [liveBounds, mapName, parsedBomb],
     );
 
-    const isShooting = useShootingDetection(players);
-    const { smoothPosRef, smoothBombRef, smoothBoundsRef, viewportRef, viewportSizeRef } =
-        useSmoothRadar({ mapName, markers, bombRadarPos, liveBounds });
+    const shotUntilRef = useShootingDetection(players);
+    const { viewportRef } = useSmoothRadar({ mapName, markers, bombRadarPos, liveBounds, shotUntilRef });
 
     const radarBackground = useFallbackBg ? fallbackMapImageUrl(mapName) : radarImageUrl(mapName);
+
+    const handleImgError = useCallback(() => {
+        setUseFallbackBg(true);
+    }, []);
 
     const style = {
         "--c-ff": C.ff,
@@ -91,41 +94,25 @@ export const RadarMap = ({ mapName, players, bombPosition }: RadarMapProps) => {
                         src={radarBackground}
                         alt={mapName ?? "Radar"}
                         draggable={false}
-                        onError={() => { if (!useFallbackBg) setUseFallbackBg(true); }}
+                        onError={handleImgError}
                     />
                 ) : (
                     <div className="classic-radar__empty">No map</div>
                 )}
 
-                {markers.map((m) => {
-                    const smooth =
-                        smoothPosRef.current.get(m.steamid) ??
-                        worldToRadar(mapName, { x: m.wx, y: m.wy, z: m.wz }, smoothBoundsRef.current);
-                    const { w, h } = viewportSizeRef.current;
-                    return (
-                        <RadarMarkerDot
-                            key={m.steamid}
-                            steamid={m.steamid}
-                            name={m.name}
-                            team={m.team}
-                            slot={m.slot}
-                            flashed={m.flashed}
-                            shooting={isShooting(m.steamid)}
-                            bombCarrier={m.bombCarrier}
-                            px={(smooth.x / 100) * w - 8}
-                            py={(smooth.y / 100) * h - 8}
-                        />
-                    );
-                })}
-
-                {smoothBombRef.current && (
-                    <PlantedBomb
-                        x={smoothBombRef.current.x}
-                        y={smoothBombRef.current.y}
-                        vw={viewportSizeRef.current.w}
-                        vh={viewportSizeRef.current.h}
+                {markers.map((m) => (
+                    <RadarMarkerDot
+                        key={m.steamid}
+                        steamid={m.steamid}
+                        name={m.name}
+                        team={m.team}
+                        slot={m.slot}
+                        flashed={m.flashed}
+                        bombCarrier={m.bombCarrier}
                     />
-                )}
+                ))}
+
+                {bombRadarPos && <PlantedBomb />}
             </div>
         </div>
     );
