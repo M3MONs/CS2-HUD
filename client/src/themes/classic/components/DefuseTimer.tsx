@@ -8,11 +8,12 @@ export const DefuseTimer = ({ bomb }: { bomb: BombData }) => {
     const C = useClassicPalette();
     const defusing = bomb.state === "defusing";
     const defused = bomb.state === "defused";
+    const peakRef = useRef(0);
+
     if (!defusing && !defused) return null;
 
     const sec = parseFloat(bomb.countdown ?? "0");
 
-    const peakRef = useRef(0);
     if (defusing && sec > peakRef.current) peakRef.current = sec;
     if (!defusing) peakRef.current = 0;
 
