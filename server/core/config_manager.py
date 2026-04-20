@@ -1,11 +1,15 @@
 import json
 import logging
+import sys
 from pathlib import Path
 from threading import RLock
 
 from models.config import HudConfig, HudTheme
 
-CONFIG_PATH = Path(__file__).parent.parent / "config.json"
+if getattr(sys, 'frozen', False):
+    CONFIG_PATH = Path(sys.executable).parent / "config.json"
+else:
+    CONFIG_PATH = Path(__file__).parent.parent / "config.json"
 
 
 class ConfigManager:
