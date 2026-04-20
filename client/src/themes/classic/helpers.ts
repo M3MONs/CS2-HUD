@@ -250,3 +250,21 @@ export function worldToRadar(
 
     return { x: 50, y: 50, calibrated: false };
 }
+
+export const GRENADE_NAMES = ["flashbang", "smokegrenade", "hegrenade", "molotov", "incgrenade", "decoy"] as const;
+
+/**
+ * Return a map of grenade types to their counts for a given player, based on their weapons.
+ * @param player The player whose grenades are being counted.
+ * @returns A Map where keys are grenade types (e.g. "flashbang") and values are the counts of each grenade type the player has.
+ */
+export function collectGrenades(player: GSIPlayer): Map<string, number> {
+    const result = new Map<string, number>();
+    for (const w of Object.values(player.weapons ?? {})) {
+        if (w.type.toLowerCase() !== "grenade") continue;
+        if (w.state !== "active" && w.state !== "holstered") continue;
+        const bare = w.name.replace(/^weapon_/, "");
+        result.set(bare, (result.get(bare) ?? 0) + 1);
+    }
+    return result;
+}
