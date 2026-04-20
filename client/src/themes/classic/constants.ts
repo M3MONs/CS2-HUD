@@ -30,13 +30,25 @@ export const MAP_CALIBRATION: Record<string, MapCalibration> = {
 export const RADAR_SIZE = 1024;
 
 /** Linear interpolation factor for player/bomb marker movement per animation frame. */
-export const LERP = 0.12;
+export const LERP = 0.18;
 
 /** Linear interpolation factor for live-bounds adjustment per animation frame. */
 export const LERP_BOUNDS = 0.1;
 
 /** Minimum position delta (in radar %) below which movement snaps instead of interpolating. */
 export const MOVE_THRESHOLD = 0.02;
+
+/**
+ * Maximum time (ms) to extrapolate a player's position beyond the last GSI update.
+ * Capped to avoid overshooting when a player stops or changes direction.
+ */
+export const EXTRAP_MAX_MS = 120;
+
+/**
+ * Minimum interval (ms) between two GSI updates for velocity to be considered valid.
+ * Prevents division-by-near-zero when two updates arrive in the same frame.
+ */
+export const EXTRAP_MIN_DT = 30;
 
 /** Duration in milliseconds for which a player is considered "shooting" after ammo drop. */
 export const SHOOTING_TTL_MS = 150;
