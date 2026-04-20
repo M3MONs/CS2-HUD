@@ -33,6 +33,7 @@ export interface GSIPlayer {
         health: number;
         armor: number;
         helmet: boolean;
+        defusekit?: boolean;
         money: number;
         round_kills: number;
         flashed: number;
