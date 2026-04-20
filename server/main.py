@@ -1,3 +1,4 @@
+import sys
 from contextlib import asynccontextmanager
 from pathlib import Path
 from fastapi import FastAPI
@@ -9,7 +10,10 @@ from api.websocket import router as ws_router
 from api.config import router as config_router
 
 
-BASE_DIR = Path(__file__).parent
+if getattr(sys, 'frozen', False):
+    BASE_DIR = Path(sys._MEIPASS) # type: ignore
+else:
+    BASE_DIR = Path(__file__).parent
 BUILD_DIR = BASE_DIR / "static"
 
 
