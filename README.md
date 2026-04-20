@@ -7,6 +7,8 @@ A custom real-time HUD overlay for Counter-Strike 2, powered by Game State Integ
 ![TypeScript](https://img.shields.io/badge/TypeScript-5.9-blue?logo=typescript)
 ![Python](https://img.shields.io/badge/Python-3.12+-yellow?logo=python)
 
+<img width="1154" height="644" alt="image" src="https://github.com/user-attachments/assets/b3a823e2-80db-4188-a864-c2ada12013d9" />
+
 ## Features
 
 - **Live scoreboard** — team names, scores, round number, phase timer, and overtime detection
