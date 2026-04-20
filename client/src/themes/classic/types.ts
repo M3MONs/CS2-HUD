@@ -66,17 +66,7 @@ export type RadarMarkerDotProps = {
     team: "CT" | "T";
     slot: number;
     flashed: boolean;
-    shooting: boolean;
     bombCarrier: boolean;
-    px: number;
-    py: number;
-};
-
-export type PlantedBombProps = {
-    x: number;
-    y: number;
-    vw: number;
-    vh: number;
 };
 
 export type SmoothPos = { x: number; y: number };
@@ -97,4 +87,5 @@ export type SmoothRadarParams = {
     markers: Marker[];
     bombRadarPos: RadarPos | null;
     liveBounds?: SmoothBounds;
+    shotUntilRef: React.RefObject<Map<string, number>>;
 };
