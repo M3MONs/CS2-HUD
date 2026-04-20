@@ -2,7 +2,7 @@ from fastapi import APIRouter, HTTPException
 from models.config import HudConfig, HudTheme
 from core.config_manager import config_manager
 
-router = APIRouter(prefix="/config", tags=["config"])
+router = APIRouter(prefix="/api/config", tags=["config"])
 
 
 def _get_theme_or_404(theme_id: str) -> HudTheme:
