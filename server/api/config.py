@@ -1,6 +1,7 @@
+from core.config_manager import config_manager
 from fastapi import APIRouter, HTTPException
 from models.config import HudConfig, HudTheme
-from core.config_manager import config_manager
+from pydantic import ValidationError
 
 router = APIRouter(prefix="/api/config", tags=["config"])
 
@@ -25,7 +26,7 @@ async def update_config(new_config: HudConfig) -> HudConfig:
     try:
         return config_manager.update(new_config)
     except ValueError as e:
-        raise HTTPException(status_code=422, detail=str(e))
+        raise HTTPException(status_code=422, detail=str(e)) from e
 
 
 @router.patch("/", response_model=HudConfig)
@@ -34,9 +35,9 @@ async def patch_config(partial_config: dict) -> HudConfig:
     try:
         return config_manager.patch(partial_config)
     except ValueError as e:
-        raise HTTPException(status_code=422, detail=str(e))
-    except Exception as e:
-        raise HTTPException(status_code=400, detail=str(e))
+        raise HTTPException(status_code=422, detail=str(e)) from e
+    except ValidationError as e:
+        raise HTTPException(status_code=400, detail=str(e)) from e
 
 
 @router.post("/themes", response_model=HudConfig)
