@@ -5,6 +5,9 @@ from pathlib import Path
 from threading import RLock
 
 from models.config import HudConfig, HudTheme
+from pydantic import ValidationError
+
+logger = logging.getLogger(__name__)
 
 if getattr(sys, 'frozen', False):
     CONFIG_PATH = Path(sys.executable).parent / "config.json"
@@ -23,16 +26,16 @@ class ConfigManager:
         """Loads the HUD configuration from the JSON file."""
         if CONFIG_PATH.exists():
             try:
-                with open(CONFIG_PATH, "r") as f:
+                with open(CONFIG_PATH, "r", encoding="utf-8") as f:
                     data = json.load(f)
                     return HudConfig(**data)
-            except Exception as e:
-                logging.error(f"Error loading config: {e}")
+            except (OSError, json.JSONDecodeError, ValidationError) as e:
+                logger.error("Error loading config: %s", e)
         default = HudConfig()
         try:
             CONFIG_PATH.write_text(default.model_dump_json(indent=2), encoding="utf-8")
-        except Exception as e:
-            logging.warning(f"Could not write default config to disk: {e}")
+        except OSError as e:
+            logger.warning("Could not write default config to disk: %s", e)
         return default
 
     def save(self) -> None:
@@ -43,8 +46,8 @@ class ConfigManager:
                     self._config.model_dump_json(indent=2),
                     encoding="utf-8",
                 )
-            except Exception as e:
-                logging.error(f"Error saving config: {e}")
+            except OSError as e:
+                logger.error("Error saving config: %s", e)
 
     def get(self) -> HudConfig:
         """Returns a deep copy of the current HUD configuration."""
