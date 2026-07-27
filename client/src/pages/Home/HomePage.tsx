@@ -1,8 +1,9 @@
 import { motion } from "framer-motion";
-import BackgroundEffects from "./components/BackgroundEffects";
-import NavCard from "./components/NavCard";
-import { HudIcon, SettingsIcon } from "./components/icons";
-import { container, fadeUp } from "./components/variants";
+import BackgroundEffects from "./components/organisms/BackgroundEffects";
+import NavCard from "./components/organisms/NavCard";
+import { HudIcon, SettingsIcon } from "./components/atoms/icons";
+import { container, fadeUp } from "./variants";
+import "./style.css";
 
 const HomePage = () => {
     return (

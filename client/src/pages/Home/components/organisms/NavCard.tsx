@@ -1,20 +1,10 @@
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router";
-import { fadeUp } from "./variants";
-import CopyButton from "./CopyButton";
-import GradientBorder from "./GradientBorder";
-import CardHeader from "./CardHeader";
-
-type NavCardProps = {
-    label: string;
-    description: string;
-    tag: string;
-    path: string;
-    accentFrom: string;
-    accentTo: string;
-    icon: React.ReactNode;
-    copyUrl?: string;
-};
+import { fadeUp } from "../../variants";
+import type { NavCardProps } from "../../type";
+import CopyButton from "../atoms/CopyButton";
+import GradientBorder from "../atoms/GradientBorder";
+import CardHeader from "../molecules/CardHeader";
 
 const NavCard = ({ label, description, tag, path, accentFrom, accentTo, icon, copyUrl }: NavCardProps) => {
     const navigate = useNavigate();
@@ -49,4 +39,3 @@ const NavCard = ({ label, description, tag, path, accentFrom, accentTo, icon, co
 };
 
 export default NavCard;
-

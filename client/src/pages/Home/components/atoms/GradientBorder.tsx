@@ -1,9 +1,5 @@
 import { motion } from "framer-motion";
-
-type GradientBorderProps = {
-    accentFrom: string;
-    accentTo: string;
-};
+import type { GradientBorderProps } from "../../type";
 
 const GradientBorder = ({ accentFrom, accentTo }: GradientBorderProps) => (
     <motion.span

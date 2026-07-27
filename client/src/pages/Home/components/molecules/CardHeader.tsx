@@ -1,11 +1,5 @@
 import { motion } from "framer-motion";
-
-type CardHeaderProps = {
-    tag: string;
-    accentFrom: string;
-    accentTo: string;
-    icon: React.ReactNode;
-};
+import type { CardHeaderProps } from "../../type";
 
 const CardHeader = ({ tag, accentFrom, accentTo, icon }: CardHeaderProps) => (
     <div className="mb-3 flex items-center justify-between">

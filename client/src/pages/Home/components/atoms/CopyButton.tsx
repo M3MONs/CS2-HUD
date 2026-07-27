@@ -1,9 +1,6 @@
 import { useState } from "react";
+import type { CopyButtonProps } from "../../type";
 import { CheckIcon, CopyIcon } from "./icons";
-
-type CopyButtonProps = {
-    url: string;
-};
 
 const CopyButton = ({ url }: CopyButtonProps) => {
     const [copied, setCopied] = useState(false);
