@@ -1,6 +1,7 @@
 import asyncio
-from fastapi import APIRouter, WebSocket, WebSocketDisconnect
+
 from core.state import game_state_store
+from fastapi import APIRouter, WebSocket, WebSocketDisconnect
 
 router = APIRouter()
 
