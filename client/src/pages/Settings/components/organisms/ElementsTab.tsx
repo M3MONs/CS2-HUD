@@ -1,6 +1,6 @@
 import { useHudConfigStore } from "@/stores/HudConfigStore";
 import type { HudElementsVisibility } from "@/types/hudConfig";
-import Toggle from "./Toggle";
+import Toggle from "../atoms/Toggle";
 
 const ELEMENT_LABELS: Record<keyof HudElementsVisibility, string> = {
     scoreboard: "Scoreboard",

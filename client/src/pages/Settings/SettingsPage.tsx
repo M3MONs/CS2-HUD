@@ -1,10 +1,10 @@
 import { useState } from "react";
 import { useNavigate } from "react-router";
 import { useHudConfig } from "@/hooks/useHudConfig";
-import ElementsTab from "./components/ElementsTab";
-import ThemesTab from "./components/ThemesTab";
-
-type Tab = "elements" | "themes";
+import type { Tab } from "./type";
+import ElementsTab from "./components/organisms/ElementsTab";
+import ThemesTab from "./components/organisms/ThemesTab";
+import "./style.css";
 
 const TABS: { id: Tab; label: string }[] = [
     { id: "elements", label: "HUD Elements" },

@@ -1,7 +1,4 @@
-interface ToggleProps {
-    checked: boolean;
-    onChange: () => void;
-}
+import type { ToggleProps } from "../../type";
 
 const Toggle = ({ checked, onChange }: ToggleProps) => (
     <button

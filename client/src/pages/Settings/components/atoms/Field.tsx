@@ -1,10 +1,4 @@
-import type { ReactNode } from "react";
-
-interface FieldProps {
-    label: string;
-    children: ReactNode;
-    className?: string;
-}
+import type { FieldProps } from "../../type";
 
 const Field = ({ label, children, className = "" }: FieldProps) => (
     <label className={`flex flex-col gap-1 ${className}`}>

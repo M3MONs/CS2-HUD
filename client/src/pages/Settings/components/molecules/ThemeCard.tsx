@@ -1,8 +1,9 @@
-import type { HudTheme, ThemeColors } from "@/types/hudConfig";
-
-interface ThemeColorStripProps {
-    colors: ThemeColors;
-}
+import type {
+    ThemeActionsProps,
+    ThemeCardProps,
+    ThemeColorStripProps,
+    ThemeInfoProps,
+} from "../../type";
 
 const ThemeColorStrip = ({ colors }: ThemeColorStripProps) => (
     <div className="mb-3 flex h-8 gap-1 overflow-hidden rounded-md">
@@ -12,25 +13,12 @@ const ThemeColorStrip = ({ colors }: ThemeColorStripProps) => (
     </div>
 );
 
-interface ThemeInfoProps {
-    name: string;
-    id: string;
-}
-
 const ThemeInfo = ({ name, id }: ThemeInfoProps) => (
     <div>
         <p className="text-sm font-medium text-white">{name}</p>
         <p className="text-xs text-white/30">{id}</p>
     </div>
 );
-
-interface ThemeActionsProps {
-    themeId: string;
-    isActive: boolean;
-    onSelect: () => void;
-    onEdit: () => void;
-    onDelete: () => void;
-}
 
 const ThemeActions = ({ themeId, isActive, onSelect, onEdit, onDelete }: ThemeActionsProps) => (
     <div className="flex shrink-0 items-center gap-1">
@@ -71,14 +59,6 @@ const ThemeActions = ({ themeId, isActive, onSelect, onEdit, onDelete }: ThemeAc
         )}
     </div>
 );
-
-interface ThemeCardProps {
-    theme: HudTheme;
-    isActive: boolean;
-    onSelect: () => void;
-    onEdit: () => void;
-    onDelete: () => void;
-}
 
 const ThemeCard = ({ theme, isActive, onSelect, onEdit, onDelete }: ThemeCardProps) => (
     <div

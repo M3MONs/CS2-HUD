@@ -1,8 +1,9 @@
 import { motion } from "framer-motion";
 import { useState } from "react";
 import type { HudTheme, ThemeColors } from "@/types/hudConfig";
-import Field from "./Field";
-import Input from "./Input";
+import type { ColorFieldProps, ThemeEditorProps } from "../../type";
+import Field from "../atoms/Field";
+import Input from "../atoms/Input";
 
 const isHex = (value: string) => /^#[0-9A-Fa-f]{0,6}$/.test(value);
 
@@ -15,12 +16,6 @@ const COLOR_LABELS: Record<keyof ThemeColors, string> = {
     health_bar: "Health Bar",
     armor_bar: "Armor Bar",
 };
-
-interface ColorFieldProps {
-    label: string;
-    value: string;
-    onChange: (value: string) => void;
-}
 
 const ColorField = ({ label, value, onChange }: ColorFieldProps) => (
     <div className="min-w-0 flex flex-col gap-1">
@@ -41,13 +36,6 @@ const ColorField = ({ label, value, onChange }: ColorFieldProps) => (
         </div>
     </div>
 );
-
-interface ThemeEditorProps {
-    initial: HudTheme;
-    isNew: boolean;
-    onSave: (theme: HudTheme) => void;
-    onCancel: () => void;
-}
 
 const ThemeEditor = ({ initial, isNew, onSave, onCancel }: ThemeEditorProps) => {
     const [draft, setDraft] = useState<HudTheme>(initial);

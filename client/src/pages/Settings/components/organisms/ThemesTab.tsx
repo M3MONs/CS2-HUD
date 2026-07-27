@@ -1,8 +1,9 @@
 import { useState } from "react";
 import { useHudConfigStore } from "@/stores/HudConfigStore";
 import type { HudTheme } from "@/types/hudConfig";
-import ThemeCard from "./ThemeCard";
-import ThemeEditor from "./ThemeEditor";
+import type { EditingState } from "../../type";
+import ThemeCard from "../molecules/ThemeCard";
+import ThemeEditor from "../molecules/ThemeEditor";
 
 const createEmptyTheme = (): HudTheme => ({
     id: "",
@@ -20,8 +21,6 @@ const createEmptyTheme = (): HudTheme => ({
     border_radius: "4px",
     opacity: 0.9,
 });
-
-type EditingState = { theme: HudTheme; isNew: boolean } | null;
 
 const ThemesTab = () => {
     const config = useHudConfigStore((s) => s.config);
