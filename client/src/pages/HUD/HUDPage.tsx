@@ -4,6 +4,7 @@ import { useThemeStyles } from "@/hooks/useThemeStyles";
 import { useHUDStore } from "@/stores/HudStore";
 import { useHudConfigStore } from "@/stores/HudConfigStore";
 import { getThemeComponent } from "@/themes/registry";
+import "./style.css";
 
 const HUDPage = () => {
     useGSISocket();
