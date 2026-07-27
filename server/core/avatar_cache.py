@@ -1,8 +1,8 @@
 import asyncio
 import logging
 import xml.etree.ElementTree as ET
+
 import httpx
-from typing import Optional
 
 STEAM_XML_URL = "https://steamcommunity.com/profiles/{steamid}/?xml=1"
 logger = logging.getLogger(__name__)
@@ -14,11 +14,10 @@ class AvatarCache:
         self._pending: set[str] = set()
         self._lock = asyncio.Lock()
 
-    def get(self, steamid: str) -> Optional[str]:
+    def get(self, steamid: str) -> str | None:
         return self._cache.get(steamid)
 
     async def fetch(self, steamids: list[str]) -> None:
-        # TODO: Add rate limiting and retry logic to avoid hitting Steam's limits + mv to separate method
         async with self._lock:
             missing = [sid for sid in steamids if sid not in self._cache and sid not in self._pending]
             if not missing:
@@ -48,7 +47,7 @@ class AvatarCache:
             async with self._lock:
                 self._cache[steamid] = avatar
             return True
-        except Exception as e:
+        except (httpx.HTTPError, ET.ParseError) as e:
             logger.error("Avatar fetch failed for %s: %s", steamid, e)
             return False
 
