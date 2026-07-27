@@ -1,5 +1,6 @@
+from typing import Any
+
 from pydantic import BaseModel, ConfigDict
-from typing import Any, Dict, Optional
 
 
 class GSIBaseModel(BaseModel):
@@ -8,6 +9,7 @@ class GSIBaseModel(BaseModel):
 
 class PlayerState(GSIBaseModel):
     """Represents the state of a player in the game."""
+
     health: int
     armor: int
     helmet: bool
@@ -15,22 +17,24 @@ class PlayerState(GSIBaseModel):
     money: int
     round_kills: int
     equip_value: int
-    smoked: Optional[int] = 0
-    burning: Optional[int] = 0
+    smoked: int | None = 0
+    burning: int | None = 0
 
 
 class Weapon(GSIBaseModel):
     """Represents a weapon in the game."""
+
     name: str
     type: str
     state: str
-    ammo_clip: Optional[int] = None
-    ammo_clip_max: Optional[int] = None
-    ammo_reserve: Optional[int] = None
+    ammo_clip: int | None = None
+    ammo_clip_max: int | None = None
+    ammo_reserve: int | None = None
 
 
 class Vec3(GSIBaseModel):
     """Represents 3D world coordinates."""
+
     x: float
     y: float
     z: float
@@ -38,33 +42,36 @@ class Vec3(GSIBaseModel):
 
 class Player(GSIBaseModel):
     """Represents a player in the game."""
-    steamid: Optional[str] = None
-    avatar: Optional[str] = None
+
+    steamid: str | None = None
+    avatar: str | None = None
     name: str
-    team: Optional[str] = None
+    team: str | None = None
     state: PlayerState
-    weapons: Optional[Dict[str, Weapon]] = None
-    match_stats: Optional[Dict[str, int]] = None
-    observer_slot: Optional[int] = None
-    position: Optional[str | Vec3 | list[float]] = None
-    forward: Optional[str | Vec3 | list[float]] = None
-    activity: Optional[str] = None
+    weapons: dict[str, Weapon] | None = None
+    match_stats: dict[str, int] | None = None
+    observer_slot: int | None = None
+    position: str | Vec3 | list[float] | None = None
+    forward: str | Vec3 | list[float] | None = None
+    activity: str | None = None
 
 
 class MapState(GSIBaseModel):
     """Represents the state of the map in the game."""
+
     name: str
     phase: str
-    team_ct: Dict[str, Any]
-    team_t: Dict[str, Any]
+    team_ct: dict[str, Any]
+    team_t: dict[str, Any]
 
 
 class GSIPayload(GSIBaseModel):
     """Represents the payload sent by CS2's Game State Integration."""
-    provider: Dict[str, Any]
-    map: Optional[MapState] = None
-    player: Optional[Player] = None
-    allplayers: Optional[Dict[str, Player]] = None
-    bomb: Optional[Dict[str, Any]] = None
-    round: Optional[Dict[str, Any]] = None
-    phase_countdowns: Optional[Dict[str, Any]] = None
+
+    provider: dict[str, Any]
+    map: MapState | None = None
+    player: Player | None = None
+    allplayers: dict[str, Player] | None = None
+    bomb: dict[str, Any] | None = None
+    round: dict[str, Any] | None = None
+    phase_countdowns: dict[str, Any] | None = None
