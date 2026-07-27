@@ -1,5 +1,6 @@
+from collections.abc import Callable
 from threading import Lock
-from typing import Any, List, Callable
+from typing import Any
 
 
 class EventEmitter:
@@ -9,7 +10,7 @@ class EventEmitter:
 
     def __init__(self) -> None:
         self._lock = Lock()
-        self._subscribers: List[Callable[[Any], None]] = []
+        self._subscribers: list[Callable[[Any], None]] = []
 
     def subscribe(self, callback: Callable[[Any], None]) -> None:
         """Adds a subscriber callback to be called when an event is emitted."""
@@ -25,7 +26,7 @@ class EventEmitter:
     def emit(self, data: Any) -> None:
         """Emits an event to all subscribers with the provided data."""
         with self._lock:
-            current_subscribers = list(self._subscribers)
+            current_subscribers = self._subscribers
 
         for callback in current_subscribers:
             callback(data)
