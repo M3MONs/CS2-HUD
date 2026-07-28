@@ -34,6 +34,7 @@ exe = EXE(
     pyz,
     a.scripts,
     [],
+    exclude_binaries=True,
     name='CSHUD',
     icon='icon.ico',
     debug=False,
@@ -52,6 +53,10 @@ exe = EXE(
 coll = COLLECT(
     exe,
     a.binaries,
+    a.zipfiles,
     a.datas,
+    strip=False,
+    upx=True,
+    upx_exclude=[],
     name='CSHUD',
 )
