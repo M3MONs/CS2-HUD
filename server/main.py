@@ -1,17 +1,18 @@
 import sys
 from contextlib import asynccontextmanager
 from pathlib import Path
+
+from api.config import router as config_router
+from api.gsi import _tasks as gsi_tasks
+from api.gsi import router as gsi_router
+from api.websocket import router as ws_router
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.staticfiles import StaticFiles
 from fastapi.responses import FileResponse
-from api.gsi import router as gsi_router, _tasks as gsi_tasks
-from api.websocket import router as ws_router
-from api.config import router as config_router
+from fastapi.staticfiles import StaticFiles
 
-
-if getattr(sys, 'frozen', False):
-    BASE_DIR = Path(sys._MEIPASS) # type: ignore
+if getattr(sys, "frozen", False):
+    BASE_DIR = Path(sys._MEIPASS)  # type: ignore
 else:
     BASE_DIR = Path(__file__).parent
 BUILD_DIR = BASE_DIR / "static"
@@ -47,8 +48,10 @@ if BUILD_DIR.exists():
 
 if __name__ == "__main__":
     import threading
-    import uvicorn
+    import webbrowser
+
     import pystray
+    import uvicorn
     from PIL import Image, ImageDraw
 
     PORT = 8000
@@ -67,6 +70,9 @@ if __name__ == "__main__":
     thread = threading.Thread(target=run_server, daemon=True)
     thread.start()
 
+    def on_open(icon, item):
+        webbrowser.open(f"http://localhost:{PORT}")
+
     def on_quit(icon, item):
         server.should_exit = True
         icon.stop()
@@ -76,7 +82,11 @@ if __name__ == "__main__":
         make_icon(),
         "CS2 HUD",
         menu=pystray.Menu(
-            pystray.MenuItem(f"localhost:{PORT}", None, enabled=False),
+            pystray.MenuItem(
+                f"Open localhost:{PORT}",
+                on_open,
+                default=True,
+            ),
             pystray.MenuItem("Quit", on_quit),
         ),
     )
