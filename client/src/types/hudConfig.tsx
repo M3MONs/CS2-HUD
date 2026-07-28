@@ -20,6 +20,19 @@ export interface ThemeColors {
     armor_bar: string;
 }
 
+export interface ElementPosition {
+    x: number;
+    y: number;
+}
+
+export interface ThemeLayout {
+    scoreboard: ElementPosition;
+    bomb_timer: ElementPosition;
+    team_ct: ElementPosition;
+    team_t: ElementPosition;
+    minimap: ElementPosition;
+}
+
 export interface HudTheme {
     id: string;
     name: string;
@@ -27,6 +40,7 @@ export interface HudTheme {
     font: string;
     border_radius: string;
     opacity: number;
+    layout: ThemeLayout;
 }
 
 export interface HudConfig {
