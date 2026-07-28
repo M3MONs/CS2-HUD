@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { DEFAULT_THEME_LAYOUT, defaultTheme } from "@/consts/defaultTheme";
 import { useHudConfigStore } from "@/stores/HudConfigStore";
 import type { HudTheme } from "@/types/hudConfig";
 import type { EditingState } from "../../type";
@@ -6,20 +7,11 @@ import ThemeCard from "../molecules/ThemeCard";
 import ThemeEditor from "../molecules/ThemeEditor";
 
 const createEmptyTheme = (): HudTheme => ({
+    ...defaultTheme,
     id: "",
     name: "",
-    colors: {
-        ct_primary: "#5B9BD5",
-        t_primary: "#E6C04E",
-        background: "#000000",
-        text: "#FFFFFF",
-        accent: "#FF6B00",
-        health_bar: "#4ADE80",
-        armor_bar: "#60A5FA",
-    },
-    font: "Inter",
-    border_radius: "4px",
-    opacity: 0.9,
+    colors: { ...defaultTheme.colors, background: "#000000" },
+    layout: { ...DEFAULT_THEME_LAYOUT },
 });
 
 const ThemesTab = () => {
