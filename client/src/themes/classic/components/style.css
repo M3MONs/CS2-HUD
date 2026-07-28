@@ -322,38 +322,22 @@
 }
 
 /* ── BroadcastTheme layout ──────────────────────────── */
-.classic-layout__top-center {
-    position: absolute;
-    top: 0;
-    left: 50%;
-    transform: translateX(-50%);
-    z-index: 20;
+.classic-layout__scoreboard,
+.classic-layout__bomb {
     display: flex;
     flex-direction: column;
     align-items: center;
 }
-.classic-layout__players {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    z-index: 10;
+.classic-layout__players-inner {
     display: flex;
     justify-content: center;
     align-items: flex-end;
     gap: 2px;
-    padding: 0 16px;
+    padding: 0;
 }
 .classic-layout__spacer {
     width: 150px;
     flex-shrink: 0;
-}
-
-.classic-layout__radar {
-    position: absolute;
-    left: 20px;
-    top: 20px;
-    z-index: 15;
 }
 
 /* ── RadarMap ───────────────────────────────────────── */

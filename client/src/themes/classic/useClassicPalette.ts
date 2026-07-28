@@ -1,21 +1,23 @@
 import { useMemo } from "react";
 import { useHudConfigStore } from "@/stores/HudConfigStore";
 import { defaultTheme } from "@/consts/defaultTheme";
+import { useThemeOverride } from "@/themes/ThemeOverrideContext";
 import { withAlpha, teamPalette } from "./helpers";
 import type { ClassicPalette } from "./types";
 
 export type { ClassicPalette } from "./types";
 
 /**
- * Hook to get the classic palette based on the active theme.
- * @returns The classic palette object.
+ * Hook to get the classic palette based on the active theme (or layout preview override).
  */
 export const useClassicPalette = (): ClassicPalette => {
+    const override = useThemeOverride();
     const activeThemeId = useHudConfigStore((s) => s.config?.active_theme_id);
     const themes = useHudConfigStore((s) => s.config?.themes);
 
     return useMemo(() => {
-        const theme = themes?.find((t) => t.id === activeThemeId) ?? defaultTheme;
+        const theme =
+            override ?? themes?.find((t) => t.id === activeThemeId) ?? defaultTheme;
         const { colors, font } = theme;
         const text = colors.text;
 
@@ -41,5 +43,5 @@ export const useClassicPalette = (): ClassicPalette => {
             money: "#2DD45B",
             dead: "rgba(200, 45, 45, 0.80)",
         };
-    }, [activeThemeId, themes]);
+    }, [override, activeThemeId, themes]);
 };
