@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
 import BackgroundEffects from "./components/organisms/BackgroundEffects";
 import NavCard from "./components/organisms/NavCard";
-import { HudIcon, SettingsIcon } from "./components/atoms/icons";
+import { HudIcon, LayoutIcon, SettingsIcon } from "./components/atoms/icons";
 import { container, fadeUp } from "./variants";
 import "./style.css";
 
@@ -41,8 +41,17 @@ const HomePage = () => {
                     copyUrl="/hud"
                 />
                 <NavCard
+                    label="Layout Editor"
+                    description="Drag HUD widgets and tweak theme colors with a live preview."
+                    tag="Edit"
+                    path="/layout"
+                    accentFrom="from-violet-500/40"
+                    accentTo="to-fuchsia-400/20"
+                    icon={<LayoutIcon />}
+                />
+                <NavCard
                     label="Settings"
-                    description="Configure the HUD layout, colors, and integration options."
+                    description="Configure visibility, colors, and integration options."
                     tag="Config"
                     path="/settings"
                     accentFrom="from-sky-500/40"
