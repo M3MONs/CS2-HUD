@@ -1,8 +1,10 @@
+import { createElement } from "react";
 import { useGSISocket } from "@/hooks/useGSISocket";
 import { useHudConfig } from "@/hooks/useHudConfig";
 import { useThemeStyles } from "@/hooks/useThemeStyles";
 import { useHUDStore } from "@/stores/HudStore";
 import { useHudConfigStore } from "@/stores/HudConfigStore";
+import { DEFAULT_THEME_LAYOUT } from "@/consts/defaultTheme";
 import { getThemeComponent } from "@/themes/registry";
 import "./style.css";
 
@@ -12,6 +14,7 @@ const HUDPage = () => {
     const { config, isLoading } = useHudConfig();
     const data = useHUDStore((s) => s.data);
     const activeThemeId = useHudConfigStore((s) => s.config?.active_theme_id ?? "classic");
+    const getActiveTheme = useHudConfigStore((s) => s.getActiveTheme);
     const themeStyles = useThemeStyles();
 
     if (isLoading || !config) {
@@ -22,11 +25,16 @@ const HUDPage = () => {
         );
     }
 
-    const ThemeComponent = getThemeComponent(activeThemeId);
+    const layout = getActiveTheme()?.layout ?? DEFAULT_THEME_LAYOUT;
 
     return (
         <div className="relative h-screen w-screen overflow-hidden" style={themeStyles}>
-            {data && <ThemeComponent data={data} elements={config.elements} />}
+            {data &&
+                createElement(getThemeComponent(activeThemeId), {
+                    data,
+                    elements: config.elements,
+                    layout,
+                })}
         </div>
     );
 };
