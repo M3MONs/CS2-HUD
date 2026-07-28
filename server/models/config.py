@@ -27,6 +27,21 @@ class ThemeColors(BaseModel):
     armor_bar: str = "#60A5FA"
 
 
+class ElementPosition(BaseModel):
+    """Viewport-relative position of a HUD widget (percentages)."""
+    x: float = Field(default=0, ge=0, le=100)
+    y: float = Field(default=0, ge=0, le=100)
+
+
+class ThemeLayout(BaseModel):
+    """Per-theme positions for movable HUD widgets."""
+    scoreboard: ElementPosition = Field(default_factory=lambda: ElementPosition(x=50, y=0))
+    bomb_timer: ElementPosition = Field(default_factory=lambda: ElementPosition(x=50, y=7))
+    team_ct: ElementPosition = Field(default_factory=lambda: ElementPosition(x=0, y=100))
+    team_t: ElementPosition = Field(default_factory=lambda: ElementPosition(x=100, y=100))
+    minimap: ElementPosition = Field(default_factory=lambda: ElementPosition(x=1, y=2))
+
+
 class HudTheme(BaseModel):
     """Defines a HUD theme with its properties."""
     id: str
@@ -35,6 +50,7 @@ class HudTheme(BaseModel):
     font: str = "Inter"
     border_radius: str = "4px"
     opacity: float = 0.9
+    layout: ThemeLayout = Field(default_factory=ThemeLayout)
 
     @field_validator("id")
     @classmethod
