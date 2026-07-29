@@ -8,6 +8,11 @@ A custom real-time HUD overlay for Counter-Strike 2, powered by Game State Integ
 ![Python](https://img.shields.io/badge/Python-3.12+-yellow?logo=python)
 
 <img width="1154" height="644" alt="image" src="https://github.com/user-attachments/assets/b3a823e2-80db-4188-a864-c2ada12013d9" />
+<img width="2560" height="1272" alt="screencapture-localhost-5173-2026-07-28-12_45_47" src="https://github.com/user-attachments/assets/afda2201-d36f-407e-ac38-86accf87fd88" />
+<img width="2560" height="1272" alt="screencapture-localhost-5173-settings-2026-07-28-12_45_09" src="https://github.com/user-attachments/assets/bb68a912-b950-4212-a86d-60f76386612c" />
+<img width="2560" height="1272" alt="screencapture-localhost-5173-settings-2026-07-28-12_45_19" src="https://github.com/user-attachments/assets/44843e97-2969-4f2d-8a21-bd750a0f803f" />
+<img width="2560" height="1331" alt="screencapture-localhost-5173-layout-2026-07-28-12_45_35" src="https://github.com/user-attachments/assets/dffacbd0-1458-465a-b651-f47764266c6c" />
+
 
 ## Features
 
