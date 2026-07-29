@@ -16,6 +16,7 @@ A custom real-time HUD overlay for Counter-Strike 2, powered by Game State Integ
 - **Radar minimap** — real-time player positions with smooth interpolation, shooting detection, and bomb marker
 - **Bomb & defuse timers** — animated countdown bars with urgency indicators
 - **Theming system** — customizable colors, fonts, border radius, and opacity with live preview
+- **Layout editor** — drag-and-drop widget positions (scoreboard, bomb timer, CT/T strips, minimap) on a fixed 1920×1080 canvas; mock preview without live GSI; live color tweaks; Save/Discard and reset to defaults; layout stored per theme
 - **HUD element toggles** — show/hide individual elements (scoreboard, radar, bomb timer, etc.)
 - **System tray app** — runs as a background application with a tray icon in production
 - **OBS-ready** — open `/hud` in a browser source for stream overlays
@@ -34,6 +35,21 @@ A custom real-time HUD overlay for Counter-Strike 2, powered by Game State Integ
 
 - **Single-process production**: Vite builds the client directly into `server/static/`, so the FastAPI server serves everything on one port.
 - **Dev mode**: Vite dev server on `:5173` proxies `/api` and `/ws` to the backend on `:8000`.
+
+## Project layout
+
+```
+client/                         React 19 + TypeScript + Vite SPA
+  src/pages/                    Home, HUD, Layout, Settings
+  src/themes/                   Theme registry + classic implementation
+  src/types/                    GSI + HudConfig (aligned with server models)
+server/                         Python 3.12+ FastAPI
+  api/                          GSI, WebSocket, config routers
+  core/                         State store, config manager, avatars
+  models/                       Pydantic schemas
+  static/                       Vite build output (generated)
+gamestate_integration_customhud.cfg   Sample CS2 GSI config
+```
 
 ## Prerequisites
 
@@ -92,6 +108,8 @@ With this content:
 }
 ```
 
+A sample config also lives at the repo root as [`gamestate_integration_customhud.cfg`](gamestate_integration_customhud.cfg).
+
 > **Note**: `allplayers_*` data requires spectator mode or launching CS2 with the `-netconport` launch option.
 
 ### 3. Run
@@ -130,7 +148,8 @@ Open `http://localhost:8000`. The server runs with a system tray icon.
 |------|-----|-------------|
 | Home | `/` | Landing page with navigation |
 | HUD Overlay | `/hud` | The live game overlay (use this as OBS browser source) |
-| Settings | `/settings` | Configure HUD elements and themes |
+| Layout Editor | `/layout` | Drag HUD widgets and theme colors; works offline with mock data |
+| Settings | `/settings` | Configure HUD element visibility and themes |
 
 ### OBS Setup
 
@@ -166,6 +185,20 @@ Create and customize themes with:
 - **Border radius** — corner rounding for UI elements
 - **Opacity** — overall HUD transparency
 
+### Layout (per theme)
+
+Each theme stores viewport-relative (`%`) positions for movable widgets:
+
+| Slot | Description |
+|------|-------------|
+| `scoreboard` | Top scoreboard |
+| `bomb_timer` | Bomb / defuse timers |
+| `team_ct` | CT player strip |
+| `team_t` | T player strip |
+| `minimap` | Radar |
+
+Edit positions and preview colors on `/layout`. Changes persist when you Save (`PUT /api/config/themes/{id}`). You can also reset widget positions to defaults (unsaved until Save).
+
 ## Supported Maps
 
 The radar minimap includes calibration data for:
@@ -178,12 +211,12 @@ de_ancient, de_anubis, de_dust2, de_inferno, de_mirage, de_nuke, de_overpass, de
 |--------|----------|-------------|
 | `POST` | `/gsi` | CS2 Game State Integration receiver |
 | `WS` | `/ws` | WebSocket for real-time game state |
-| `GET` | `/config/` | Get current HUD configuration |
-| `PUT` | `/config/` | Replace full configuration |
-| `PATCH` | `/config/` | Partial configuration update |
-| `POST` | `/config/themes` | Create a new theme |
-| `PUT` | `/config/themes/{id}` | Update a theme |
-| `DELETE` | `/config/themes/{id}` | Delete a theme |
+| `GET` | `/api/config/` | Get current HUD configuration |
+| `PUT` | `/api/config/` | Replace full configuration |
+| `PATCH` | `/api/config/` | Partial configuration update |
+| `POST` | `/api/config/themes` | Create a new theme |
+| `PUT` | `/api/config/themes/{id}` | Update a theme (including layout) |
+| `DELETE` | `/api/config/themes/{id}` | Delete a theme |
 
 ## Tech Stack
 
