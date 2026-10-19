@@ -12,7 +12,7 @@ interface HudConfigState {
     toggleElement: (key: keyof HudElementsVisibility) => Promise<void>;
     setActiveTheme: (themeId: string) => Promise<void>;
     addTheme: (theme: HudTheme) => Promise<void>;
-    updateTheme: (themeId: string, theme: HudTheme) => Promise<void>;
+    updateTheme: (themeId: string, theme: HudTheme) => Promise<boolean>;
     deleteTheme: (themeId: string) => Promise<void>;
     getActiveTheme: () => HudTheme | undefined;
 }
@@ -84,19 +84,21 @@ export const useHudConfigStore = create<HudConfigState>((set, get) => ({
 
     updateTheme: async (themeId, theme) => {
         const { config } = get();
-        if (!config) return;
+        if (!config) return false;
 
         const optimistic = {
             ...config,
             themes: config.themes.map((t) => (t.id === themeId ? theme : t)),
         };
-        set({ config: optimistic });
+        set({ config: optimistic, error: null });
 
         try {
             const saved = await apiConfig.updateTheme(themeId, theme);
             set({ config: saved.data });
+            return true;
         } catch (e) {
             set({ config, error: (e as Error).message });
+            return false;
         }
     },
 
