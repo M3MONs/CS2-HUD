@@ -39,12 +39,6 @@ export interface ThemeCardProps {
     onDelete: () => void;
 }
 
-export interface ColorFieldProps {
-    label: string;
-    value: string;
-    onChange: (value: string) => void;
-}
-
 export interface ThemeEditorProps {
     initial: HudTheme;
     isNew: boolean;
