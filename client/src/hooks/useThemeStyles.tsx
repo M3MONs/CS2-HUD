@@ -18,6 +18,7 @@ export const useThemeStyles = () => {
             "--hud-armor": theme.colors.armor_bar,
             "--hud-radius": theme.border_radius,
             "--hud-opacity": theme.opacity,
+            opacity: theme.opacity,
             fontFamily: theme.font,
         } as React.CSSProperties;
     }, [activeThemeId, themes]);
