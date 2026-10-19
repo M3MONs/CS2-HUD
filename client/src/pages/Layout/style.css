@@ -9,23 +9,10 @@
 .layout-page__preview {
     position: absolute;
     inset: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    overflow: auto;
     padding: 16px;
 }
 
-.layout-page__scale-wrap {
-    flex-shrink: 0;
-    transform-origin: center center;
-}
-
 .layout-page__canvas {
-    position: relative;
-    width: 1920px;
-    height: 1080px;
-    overflow: hidden;
     background: #000;
     outline: 1px solid rgba(255, 255, 255, 0.4);
     outline-offset: 0;

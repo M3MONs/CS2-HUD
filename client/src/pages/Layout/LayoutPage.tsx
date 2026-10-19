@@ -1,8 +1,8 @@
-import { createElement, useLayoutEffect, useRef, useState } from "react";
+import { createElement, useRef, useState } from "react";
 import { useNavigate } from "react-router";
+import HudCanvas from "@/components/HudCanvas";
 import type { ThemeStyleValue } from "@/components/ThemeStyleFields";
 import { DEFAULT_THEME_LAYOUT, defaultTheme } from "@/consts/defaultTheme";
-import { HUD_VIEWPORT } from "@/consts/hudViewport";
 import { useGSISocket } from "@/hooks/useGSISocket";
 import { useHudConfig } from "@/hooks/useHudConfig";
 import { useHUDStore } from "@/stores/HudStore";
@@ -11,7 +11,6 @@ import { ThemeOverrideContext } from "@/themes/ThemeOverrideContext";
 import { getThemeComponent } from "@/themes/registry";
 import type { ElementPosition, HudTheme, ThemeLayout } from "@/types/hudConfig";
 import { clampPos, SLOT_ANCHORS } from "@/themes/classic/components/positionUtils";
-import { LayoutEditorContext } from "./LayoutEditorContext";
 import LayoutToolbar from "./components/organisms/LayoutToolbar";
 import StyleModal from "./components/molecules/StyleModal";
 import { MOCK_LAYOUT_GSI } from "./mockGsiData";
@@ -64,7 +63,6 @@ const LayoutPage = () => {
     const [styleModalOpen, setStyleModalOpen] = useState(false);
     const [styleModalBaseline, setStyleModalBaseline] = useState<ThemeStyleValue | null>(null);
     const [selectedKey, setSelectedKey] = useState<keyof ThemeLayout | null>(null);
-    const [scale, setScale] = useState(1);
     const previewRef = useRef<HTMLDivElement>(null);
 
     const effectiveThemeId = selectedThemeId ?? config?.active_theme_id ?? "classic";
@@ -81,30 +79,6 @@ const LayoutPage = () => {
         setBaselineTheme(themeSnapshot(next));
         setSelectedKey(null);
     }
-
-    useLayoutEffect(() => {
-        const el = previewRef.current;
-        if (!el) return;
-
-        const updateScale = () => {
-            const styles = window.getComputedStyle(el);
-            const horizontalPadding =
-                Number.parseFloat(styles.paddingLeft) + Number.parseFloat(styles.paddingRight);
-            const verticalPadding =
-                Number.parseFloat(styles.paddingTop) + Number.parseFloat(styles.paddingBottom);
-            const nextScale = Math.min(
-                1,
-                (el.clientWidth - horizontalPadding) / HUD_VIEWPORT.width,
-                (el.clientHeight - verticalPadding) / HUD_VIEWPORT.height,
-            );
-            setScale(nextScale > 0 ? nextScale : 1);
-        };
-
-        updateScale();
-        const observer = new ResizeObserver(updateScale);
-        observer.observe(el);
-        return () => observer.disconnect();
-    }, []);
 
     if (isLoading || !config || !draftTheme || !baselineTheme || !storeTheme) {
         return (
@@ -139,18 +113,11 @@ const LayoutPage = () => {
         const selectedNode = previewRef.current?.querySelector<HTMLElement>(
             `[data-layout-key="${selectedKey}"]`,
         );
-        const anchors = SLOT_ANCHORS[selectedKey];
         const nextPos = selectedNode
             ? clampPos(
-                pos.x,
-                pos.y,
-                selectedNode.offsetWidth,
-                selectedNode.offsetHeight,
-                HUD_VIEWPORT.width,
-                HUD_VIEWPORT.height,
-                Boolean(anchors?.centerX),
-                Boolean(anchors?.pinBottom),
-                Boolean(anchors?.anchorRight),
+                pos,
+                { width: selectedNode.offsetWidth, height: selectedNode.offsetHeight },
+                SLOT_ANCHORS[selectedKey],
             )
             : pos;
 
@@ -163,7 +130,12 @@ const LayoutPage = () => {
     const handleSave = async () => {
         if (!isDirty) return;
         if (!window.confirm("Save layout & style for this theme?")) return;
-        await updateTheme(draftTheme.id, draftTheme);
+        const saved = await updateTheme(draftTheme.id, draftTheme);
+        if (!saved) {
+            const reason = useHudConfigStore.getState().error ?? "unknown error";
+            window.alert(`Save failed: ${reason}. Your changes are kept as unsaved.`);
+            return;
+        }
         setBaselineTheme(themeSnapshot(draftTheme));
     };
 
@@ -213,30 +185,22 @@ const LayoutPage = () => {
                 className="layout-page__preview"
                 onPointerDown={() => setSelectedKey(null)}
             >
-                <div className="layout-page__scale-wrap" style={{ transform: `scale(${scale})` }}>
-                    <LayoutEditorContext.Provider
-                        value={{ scale, width: HUD_VIEWPORT.width, height: HUD_VIEWPORT.height }}
-                    >
-                        <ThemeOverrideContext.Provider value={draftTheme}>
-                            <div
-                                className="layout-page__canvas"
-                                style={{
-                                    fontFamily: draftTheme.font,
-                                    opacity: draftTheme.opacity,
-                                }}
-                            >
-                                {createElement(getThemeComponent(effectiveThemeId), {
-                                    data: previewData,
-                                    elements: config.elements,
-                                    layout: draftTheme.layout,
-                                    editable: true,
-                                    onSelectKey: setSelectedKey,
-                                    onLayoutMove: handleLayoutMove,
-                                })}
-                            </div>
-                        </ThemeOverrideContext.Provider>
-                    </LayoutEditorContext.Provider>
-                </div>
+                <HudCanvas
+                    maxScale={1}
+                    canvasClassName="layout-page__canvas"
+                    canvasStyle={{ fontFamily: draftTheme.font, opacity: draftTheme.opacity }}
+                >
+                    <ThemeOverrideContext.Provider value={draftTheme}>
+                        {createElement(getThemeComponent(effectiveThemeId), {
+                            data: previewData,
+                            elements: config.elements,
+                            layout: draftTheme.layout,
+                            editable: true,
+                            onSelectKey: setSelectedKey,
+                            onLayoutMove: handleLayoutMove,
+                        })}
+                    </ThemeOverrideContext.Provider>
+                </HudCanvas>
             </div>
 
             <LayoutToolbar
