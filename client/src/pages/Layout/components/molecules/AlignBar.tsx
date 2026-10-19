@@ -1,6 +1,7 @@
 import type { MouseEvent } from "react";
 import type { AlignBarProps } from "../../type";
 import type { ElementPosition } from "@/types/hudConfig";
+import NumberField from "../atoms/NumberField";
 
 const AlignBar = ({ layoutKey, position, onChange }: AlignBarProps) => {
     const setX = (x: number) => onChange({ ...position, x: Math.round(x * 10) / 10 });
@@ -52,25 +53,11 @@ const AlignBar = ({ layoutKey, position, onChange }: AlignBarProps) => {
 
             <label className="align-bar__field">
                 X
-                <input
-                    type="number"
-                    min={0}
-                    max={100}
-                    step={0.1}
-                    value={position.x}
-                    onChange={(e) => setX(Number(e.target.value))}
-                />
+                <NumberField min={0} max={100} step={0.1} value={position.x} onCommit={setX} />
             </label>
             <label className="align-bar__field">
                 Y
-                <input
-                    type="number"
-                    min={0}
-                    max={100}
-                    step={0.1}
-                    value={position.y}
-                    onChange={(e) => setY(Number(e.target.value))}
-                />
+                <NumberField min={0} max={100} step={0.1} value={position.y} onCommit={setY} />
             </label>
 
             <div className="align-bar__group">
