@@ -92,7 +92,7 @@ const KdaRow = ({ match_stats }: { match_stats: GSIPlayer["match_stats"] }) =>
 
 const MoneyDisplay = ({ money }: { money: number }) => (
     <div className="classic-player__money">
-        ${money >= 10000 ? `${(money / 1000).toFixed(0)}k` : money >= 1000 ? `${(money / 1000).toFixed(1)}k` : money}
+        ${money}
     </div>
 );
 
