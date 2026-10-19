@@ -1,4 +1,5 @@
 import { createElement } from "react";
+import HudCanvas from "@/components/HudCanvas";
 import { useGSISocket } from "@/hooks/useGSISocket";
 import { useHudConfig } from "@/hooks/useHudConfig";
 import { useThemeStyles } from "@/hooks/useThemeStyles";
@@ -28,14 +29,14 @@ const HUDPage = () => {
     const layout = getActiveTheme()?.layout ?? DEFAULT_THEME_LAYOUT;
 
     return (
-        <div className="relative h-screen w-screen overflow-hidden" style={themeStyles}>
+        <HudCanvas className="h-screen w-screen" canvasStyle={themeStyles}>
             {data &&
                 createElement(getThemeComponent(activeThemeId), {
                     data,
                     elements: config.elements,
                     layout,
                 })}
-        </div>
+        </HudCanvas>
     );
 };
 
