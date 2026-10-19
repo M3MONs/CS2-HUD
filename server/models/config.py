@@ -7,13 +7,10 @@ class HudElementVisibility(BaseModel):
     """Defines which HUD elements are visible in the overlay."""
     scoreboard: bool = True
     player_stats: bool = True
-    killfeed: bool = True
     minimap: bool = True
     bomb_timer: bool = True
-    round_info: bool = True
     team_economy: bool = True
     phase_countdown: bool = True
-    player_inventory: bool = True
 
 
 class ThemeColors(BaseModel):

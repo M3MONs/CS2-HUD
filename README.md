@@ -173,13 +173,10 @@ Toggle visibility of individual overlay components:
 |---------|-------------|
 | Scoreboard | Team scores, round number, phase timer |
 | Player Stats | Player cards with HP, armor, weapons |
-| Killfeed | Kill notifications |
 | Minimap | Radar with player positions |
 | Bomb Timer | Bomb plant/defuse countdown |
-| Round Info | Current round phase indicator |
 | Team Economy | Team money display |
 | Phase Countdown | Round phase timer |
-| Player Inventory | Weapon and grenade slots |
 
 ### Themes
 
