@@ -2,8 +2,9 @@ import type { FC } from "react";
 import type { ThemeProps } from "../registry";
 import { AnimatePresence, motion } from "framer-motion";
 import { sorted } from "./helpers";
-import { Scoreboard, PlayerCard, BombTimer, DefuseTimer, RadarMap } from "./components";
+import { Scoreboard, BombTimer, DefuseTimer, RadarMap } from "./components";
 import Positioned from "./components/Positioned";
+import TeamSlot from "./components/TeamSlot";
 import type { GSIPlayer } from "@/types/gsi";
 import "./components/style.css";
 
@@ -40,7 +41,7 @@ const BroadcastTheme: FC<ThemeProps> = ({
 
     const ctPlayers = pickTeamPlayers("CT");
     const tPlayers = pickTeamPlayers("T");
-    const selfId = data.player?.steamid;
+    const observedId = elements.player_stats ? data.player?.steamid : undefined;
     const radarPlayers = [...ctPlayers, ...tPlayers];
     const showTeams = elements.team_economy || elements.player_stats;
 
@@ -80,63 +81,28 @@ const BroadcastTheme: FC<ThemeProps> = ({
                 )}
             </AnimatePresence>
 
-            {showTeams && elements.team_economy && ctPlayers.length > 0 && (
-                <Positioned
-                    layoutKey="team_ct"
+            {showTeams && ctPlayers.length > 0 && (
+                <TeamSlot
+                    side="ct"
+                    players={ctPlayers}
                     position={layout.team_ct}
-                    className="classic-layout__players"
-                    pinBottom
+                    observedId={observedId}
                     editable={editable}
                     onSelect={() => onSelectKey?.("team_ct")}
                     onMove={(pos) => onLayoutMove?.("team_ct", pos)}
-                    style={{ zIndex: 10 }}
-                >
-                    <motion.div
-                        className="classic-layout__players-inner"
-                        initial={editable ? false : { y: 30, opacity: 0 }}
-                        animate={{ y: 0, opacity: 1 }}
-                        transition={{ type: "spring", stiffness: 280, damping: 28, delay: 0.08 }}
-                    >
-                        {ctPlayers.map((p) => (
-                            <PlayerCard
-                                key={p.steamid}
-                                player={p}
-                                observed={elements.player_stats === true && p.steamid === selfId}
-                                side="ct"
-                            />
-                        ))}
-                    </motion.div>
-                </Positioned>
+                />
             )}
 
-            {showTeams && elements.team_economy && tPlayers.length > 0 && (
-                <Positioned
-                    layoutKey="team_t"
+            {showTeams && tPlayers.length > 0 && (
+                <TeamSlot
+                    side="t"
+                    players={tPlayers}
                     position={layout.team_t}
-                    className="classic-layout__players"
-                    pinBottom
-                    anchorRight
+                    observedId={observedId}
                     editable={editable}
                     onSelect={() => onSelectKey?.("team_t")}
                     onMove={(pos) => onLayoutMove?.("team_t", pos)}
-                    style={{ zIndex: 10 }}
-                >
-                    <motion.div
-                        className="classic-layout__players-inner"
-                        initial={editable ? false : { y: 30, opacity: 0 }}
-                        animate={{ y: 0, opacity: 1 }}
-                        transition={{ type: "spring", stiffness: 280, damping: 28, delay: 0.08 }}
-                    >
-                        {tPlayers.map((p) => (
-                            <PlayerCard
-                                key={p.steamid}
-                                player={p}
-                                observed={elements.player_stats === true && p.steamid === selfId}
-                                side="t"
-                            />
-                        ))}
-                    </motion.div>
-                </Positioned>
+                />
             )}
 
             {elements.minimap && (
