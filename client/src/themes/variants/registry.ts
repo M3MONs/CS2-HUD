@@ -16,6 +16,8 @@ export interface VariantDef<C extends HudComponentId> {
     id: string;
     label: string;
     component: ComponentType<VariantProps[C]>;
+    /** Class for the element that wraps repeated instances (e.g. the player list), when the variant changes its flow. */
+    containerClassName?: string;
 }
 
 type VariantStore = { [C in HudComponentId]: Map<string, VariantDef<C>> };

@@ -4,7 +4,8 @@ import { motion } from "framer-motion";
 import type { VariantProps } from "@/themes/variants/contracts";
 import { Variant } from "@/themes/variants/Variant";
 import { useClassicPalette } from "../useClassicPalette";
-import { hpC, pickActiveWeapon, collectGrenades } from "../helpers";
+import { pickActiveWeapon, collectGrenades } from "../helpers";
+import { playerVars } from "./playerVars";
 import { resolveWeaponImage } from "../weaponImages";
 import armorFull from "@/assets/images/icon_armor_full_default.svg";
 import armorHalf from "@/assets/images/icon_armor_half_default.svg";
@@ -13,14 +14,14 @@ import armorHalfHelmet from "@/assets/images/icon_armor_half_helmet_default.svg"
 import defuseKitImg from "@/assets/images/icon_defuse_default.svg";
 import "./style.css";
 
-const PlayerAvatar = ({ avatar }: { avatar?: string }) =>
+export const PlayerAvatar = ({ avatar }: { avatar?: string }) =>
     avatar ? (
         <div className="classic-player__avatar-wrap">
             <img className="classic-player__avatar" src={avatar} alt="" draggable={false} />
         </div>
     ) : null;
 
-const HpRow = ({
+export const HpRow = ({
     health,
     armor,
     helmet,
@@ -79,9 +80,9 @@ const HpBar = ({ health }: { health: number }) => (
     </div>
 );
 
-const PlayerName = ({ name }: { name: string }) => <div className="classic-player__name">{name}</div>;
+export const PlayerName = ({ name }: { name: string }) => <div className="classic-player__name">{name}</div>;
 
-const KdaRow = ({ match_stats }: { match_stats: GSIPlayer["match_stats"] }) =>
+export const KdaRow = ({ match_stats }: { match_stats: GSIPlayer["match_stats"] }) =>
     match_stats ? (
         <div className="classic-player__kda">
             <span className="classic-player__kda-kills">{match_stats.kills}</span>
@@ -92,7 +93,7 @@ const KdaRow = ({ match_stats }: { match_stats: GSIPlayer["match_stats"] }) =>
         </div>
     ) : null;
 
-const DeadOverlay = () => (
+export const DeadOverlay = () => (
     <div className="classic-player__dead-overlay">
         <span className="classic-player__dead-text">DEAD</span>
     </div>
@@ -140,7 +141,7 @@ const GrenadeSlot = ({ name, grenades, dead }: { name: string; grenades: Map<str
     );
 };
 
-const WeaponRow = ({ player, dead }: { player: GSIPlayer; dead: boolean }) => {
+export const WeaponRow = ({ player, dead }: { player: GSIPlayer; dead: boolean }) => {
     const lastSrcRef = useRef<string | undefined>(undefined);
     const active = pickActiveWeapon(player);
     const freshSrc = active ? resolveWeaponImage(active.name) : undefined;
@@ -187,46 +188,8 @@ export const PlayerCard = ({ player, observed, side }: VariantProps["player_stat
     const C = useClassicPalette();
     const { state, name, match_stats } = player;
     const dead = state.health <= 0;
-    const colors = side === "ct" ? C.ct : C.t;
-    const hp = hpC(state.health, C.hp);
     const lowHp = !dead && state.health <= 25;
-
-    const w = observed ? 168 : 150;
-
-    const style = {
-        "--c-ff": C.ff,
-        "--c-bg": C.bg,
-        "--c-player-w": `${w}px`,
-        "--c-player-border-w": observed ? "3px" : "2px",
-        "--c-player-border-clr": dead && !observed ? C.dead : colors.solid,
-        "--c-player-shadow": observed
-            ? `0 -4px 20px ${colors.glow}, inset 0 0 20px ${colors.glow}`
-            : "0 1px 4px rgba(0,0,0,0.3)",
-        "--c-hp-row-pad": observed ? "8px 6px 2px" : "7px 4px 2px",
-        "--c-hp-num-size": observed ? "29px" : "26px",
-        "--c-hp-num-clr": dead ? C.w20 : hp,
-        "--c-armor-size": observed ? "10px" : "8px",
-        "--c-armor-clr": C.armor,
-        "--c-w08": C.w08,
-        "--c-hp-fill-clr": dead ? "transparent" : hp,
-        "--c-name-size": observed ? "13px" : "12px",
-        "--c-name-weight": observed ? "700" : "600",
-        "--c-name-clr": dead ? C.w20 : observed ? C.w : C.w70,
-        "--c-kda-size": observed ? "12px" : "11px",
-        "--c-w40": C.w40,
-        "--c-w70": C.w70,
-        "--c-w20": C.w20,
-        "--c-dead": C.dead,
-        "--c-money-size": observed ? "13px" : "12px",
-        "--c-money": C.money,
-        "--c-money-opacity": dead ? "0.35" : "0.75",
-        "--c-avatar-filter": dead ? "grayscale(1) brightness(0.5)" : "none",
-        "--c-weapon-w": observed ? "58px" : "52px",
-        "--c-weapon-h": observed ? "36px" : "32px",
-        "--c-weapon-pad": observed ? "4px 2px 2px" : "2px 2px 1px",
-        "--c-grenade-size": observed ? "22px" : "18px",
-        "--c-equip-size": observed ? "14px" : "12px",
-    } as React.CSSProperties;
+    const style = playerVars(C, side, observed, state.health);
 
     return (
         <motion.div

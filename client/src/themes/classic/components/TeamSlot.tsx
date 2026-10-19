@@ -2,6 +2,7 @@ import { motion } from "framer-motion";
 import type { GSIPlayer } from "@/types/gsi";
 import type { ElementPosition } from "@/types/hudConfig";
 import { Variant } from "@/themes/variants/Variant";
+import { useVariantDef } from "@/themes/variants/useVariant";
 import Positioned from "./Positioned";
 import { SLOT_ANCHORS } from "./positionUtils";
 
@@ -18,6 +19,7 @@ type TeamSlotProps = {
 /** One team's row of player cards, placed in its `team_ct` / `team_t` layout slot. */
 const TeamSlot = ({ side, players, position, observedId, editable, onSelect, onMove }: TeamSlotProps) => {
     const layoutKey = side === "ct" ? "team_ct" : "team_t";
+    const { containerClassName } = useVariantDef("player_stats");
 
     return (
         <Positioned
@@ -31,7 +33,8 @@ const TeamSlot = ({ side, players, position, observedId, editable, onSelect, onM
             style={{ zIndex: 10 }}
         >
             <motion.div
-                className="classic-layout__players-inner"
+                className={`classic-layout__players-inner ${containerClassName ?? ""}`}
+                data-side={side}
                 initial={editable ? false : { y: 30, opacity: 0 }}
                 animate={{ y: 0, opacity: 1 }}
                 transition={{ type: "spring", stiffness: 280, damping: 28, delay: 0.08 }}
