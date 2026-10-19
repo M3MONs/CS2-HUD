@@ -1,4 +1,4 @@
-import type { HudTheme, ThemeLayout } from "@/types/hudConfig";
+import type { HudTheme, ThemeLayout, ThemeVariants } from "@/types/hudConfig";
 
 export const DEFAULT_THEME_LAYOUT: ThemeLayout = {
     scoreboard: { x: 50, y: 0 },
@@ -6,6 +6,14 @@ export const DEFAULT_THEME_LAYOUT: ThemeLayout = {
     team_ct: { x: 0, y: 100 },
     team_t: { x: 100, y: 100 },
     minimap: { x: 1, y: 2 },
+};
+
+export const DEFAULT_THEME_VARIANTS: ThemeVariants = {
+    scoreboard: "default",
+    player_stats: "default",
+    bomb_timer: "default",
+    team_economy: "default",
+    phase_countdown: "default",
 };
 
 // Default theme to ensure the HUD has a consistent look even if the API fails or returns incomplete data
@@ -25,4 +33,5 @@ export const defaultTheme: HudTheme = {
     border_radius: "4px",
     opacity: 0.9,
     layout: DEFAULT_THEME_LAYOUT,
+    variants: DEFAULT_THEME_VARIANTS,
 };

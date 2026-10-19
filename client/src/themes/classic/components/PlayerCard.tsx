@@ -1,6 +1,8 @@
 import { useRef } from "react";
 import type { GSIPlayer } from "@/types/gsi";
 import { motion } from "framer-motion";
+import type { VariantProps } from "@/themes/variants/contracts";
+import { Variant } from "@/themes/variants/Variant";
 import { useClassicPalette } from "../useClassicPalette";
 import { hpC, pickActiveWeapon, collectGrenades } from "../helpers";
 import { resolveWeaponImage } from "../weaponImages";
@@ -89,12 +91,6 @@ const KdaRow = ({ match_stats }: { match_stats: GSIPlayer["match_stats"] }) =>
             <span className="classic-player__kda-deaths">{match_stats.deaths}</span>
         </div>
     ) : null;
-
-const MoneyDisplay = ({ money }: { money: number }) => (
-    <div className="classic-player__money">
-        ${money}
-    </div>
-);
 
 const DeadOverlay = () => (
     <div className="classic-player__dead-overlay">
@@ -187,7 +183,7 @@ const WeaponRow = ({ player, dead }: { player: GSIPlayer; dead: boolean }) => {
     );
 };
 
-export const PlayerCard = ({ player, observed, side }: { player: GSIPlayer; observed: boolean; side: "ct" | "t" }) => {
+export const PlayerCard = ({ player, observed, side }: VariantProps["player_stats"]) => {
     const C = useClassicPalette();
     const { state, name, match_stats } = player;
     const dead = state.health <= 0;
@@ -252,7 +248,7 @@ export const PlayerCard = ({ player, observed, side }: { player: GSIPlayer; obse
             <HpBar health={state.health} />
             <PlayerName name={name} />
             <KdaRow match_stats={match_stats} />
-            <MoneyDisplay money={state.money} />
+            <Variant id="team_economy" player={player} />
             <WeaponRow player={player} dead={dead} />
             {dead && <DeadOverlay />}
         </motion.div>

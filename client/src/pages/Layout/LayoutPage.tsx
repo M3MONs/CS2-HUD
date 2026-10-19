@@ -2,17 +2,18 @@ import { createElement, useRef, useState } from "react";
 import { useNavigate } from "react-router";
 import HudCanvas from "@/components/HudCanvas";
 import type { ThemeStyleValue } from "@/components/ThemeStyleFields";
-import { DEFAULT_THEME_LAYOUT, defaultTheme } from "@/consts/defaultTheme";
+import { DEFAULT_THEME_LAYOUT, DEFAULT_THEME_VARIANTS, defaultTheme } from "@/consts/defaultTheme";
 import { useGSISocket } from "@/hooks/useGSISocket";
 import { useHudConfig } from "@/hooks/useHudConfig";
 import { useHUDStore } from "@/stores/HudStore";
 import { useHudConfigStore } from "@/stores/HudConfigStore";
 import { ThemeOverrideContext } from "@/themes/ThemeOverrideContext";
 import { getThemeComponent } from "@/themes/registry";
-import type { ElementPosition, HudTheme, ThemeLayout } from "@/types/hudConfig";
+import type { ElementPosition, HudComponentId, HudTheme, ThemeLayout, ThemeVariants } from "@/types/hudConfig";
 import { clampPos, SLOT_ANCHORS } from "@/themes/classic/components/positionUtils";
 import LayoutToolbar from "./components/organisms/LayoutToolbar";
 import StyleModal from "./components/molecules/StyleModal";
+import AppearanceModal from "./components/molecules/AppearanceModal";
 import { MOCK_LAYOUT_GSI } from "./mockGsiData";
 import "./style.css";
 
@@ -39,10 +40,16 @@ const normalizeLayout = (layout?: Partial<ThemeLayout> | null): ThemeLayout => (
 
 const cloneLayout = (layout: ThemeLayout = DEFAULT_THEME_LAYOUT): ThemeLayout => normalizeLayout(layout);
 
+const normalizeVariants = (variants?: Partial<ThemeVariants> | null): ThemeVariants => ({
+    ...DEFAULT_THEME_VARIANTS,
+    ...variants,
+});
+
 const themeSnapshot = (theme: HudTheme): HudTheme => ({
     ...theme,
     colors: { ...theme.colors },
     layout: cloneLayout(theme.layout),
+    variants: normalizeVariants(theme.variants),
 });
 
 const isSameTheme = (a: HudTheme, b: HudTheme): boolean => JSON.stringify(a) === JSON.stringify(b);
@@ -61,6 +68,7 @@ const LayoutPage = () => {
     const [baselineTheme, setBaselineTheme] = useState<HudTheme | null>(null);
     const [draftThemeId, setDraftThemeId] = useState<string | null>(null);
     const [styleModalOpen, setStyleModalOpen] = useState(false);
+    const [appearanceOpen, setAppearanceOpen] = useState(false);
     const [styleModalBaseline, setStyleModalBaseline] = useState<ThemeStyleValue | null>(null);
     const [selectedKey, setSelectedKey] = useState<keyof ThemeLayout | null>(null);
     const previewRef = useRef<HTMLDivElement>(null);
@@ -151,6 +159,13 @@ const LayoutPage = () => {
         setDraftTheme({ ...draftTheme, layout: cloneLayout() });
     };
 
+    const handleVariantChange = (componentId: HudComponentId, variantId: string) => {
+        setDraftTheme({
+            ...draftTheme,
+            variants: { ...draftTheme.variants, [componentId]: variantId },
+        });
+    };
+
     const openColors = () => {
         setStyleModalBaseline(styleFromTheme(draftTheme));
         setStyleModalOpen(true);
@@ -209,6 +224,9 @@ const LayoutPage = () => {
                 onSelectTheme={handleSelectTheme}
                 onNavigateHome={handleNavigateHome}
                 onOpenColors={openColors}
+                onOpenAppearance={() => setAppearanceOpen(true)}
+                variants={draftTheme.variants}
+                onVariantChange={handleVariantChange}
                 onResetLayout={handleResetLayout}
                 onSave={() => void handleSave()}
                 onDiscard={handleDiscard}
@@ -226,6 +244,13 @@ const LayoutPage = () => {
                 onSave={handleStyleDone}
                 onCancel={handleStyleCancel}
                 onReset={handleStyleReset}
+            />
+
+            <AppearanceModal
+                open={appearanceOpen}
+                variants={draftTheme.variants}
+                onChange={handleVariantChange}
+                onDone={() => setAppearanceOpen(false)}
             />
         </div>
     );

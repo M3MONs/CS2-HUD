@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
 import type { GSIPlayer } from "@/types/gsi";
 import type { ElementPosition } from "@/types/hudConfig";
-import { PlayerCard } from "./PlayerCard";
+import { Variant } from "@/themes/variants/Variant";
 import Positioned from "./Positioned";
 import { SLOT_ANCHORS } from "./positionUtils";
 
@@ -37,7 +37,8 @@ const TeamSlot = ({ side, players, position, observedId, editable, onSelect, onM
                 transition={{ type: "spring", stiffness: 280, damping: 28, delay: 0.08 }}
             >
                 {players.map((p) => (
-                    <PlayerCard
+                    <Variant
+                        id="player_stats"
                         key={p.steamid}
                         player={p}
                         observed={observedId !== undefined && p.steamid === observedId}

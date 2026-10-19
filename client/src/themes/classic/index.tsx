@@ -2,7 +2,9 @@ import type { FC } from "react";
 import type { ThemeProps } from "../registry";
 import { AnimatePresence, motion } from "framer-motion";
 import { sorted } from "./helpers";
-import { Scoreboard, BombTimer, DefuseTimer, RadarMap } from "./components";
+import { RadarMap } from "./components";
+import { Variant } from "@/themes/variants/Variant";
+import "@/themes/variants/register";
 import Positioned from "./components/Positioned";
 import TeamSlot from "./components/TeamSlot";
 import type { GSIPlayer } from "@/types/gsi";
@@ -58,7 +60,11 @@ const BroadcastTheme: FC<ThemeProps> = ({
                     onMove={(pos) => onLayoutMove?.("scoreboard", pos)}
                     style={{ zIndex: 20 }}
                 >
-                    <Scoreboard map={data.map} pc={elements.phase_countdown ? data.phase_countdowns : undefined} />
+                    <Variant
+                        id="scoreboard"
+                        map={data.map}
+                        pc={elements.phase_countdown ? data.phase_countdowns : undefined}
+                    />
                 </Positioned>
             )}
 
@@ -75,8 +81,7 @@ const BroadcastTheme: FC<ThemeProps> = ({
                         onMove={(pos) => onLayoutMove?.("bomb_timer", pos)}
                         style={{ zIndex: 20 }}
                     >
-                        <BombTimer key="bomb" bomb={data.bomb} />
-                        <DefuseTimer key="defuse" bomb={data.bomb} />
+                        <Variant id="bomb_timer" bomb={data.bomb} />
                     </Positioned>
                 )}
             </AnimatePresence>

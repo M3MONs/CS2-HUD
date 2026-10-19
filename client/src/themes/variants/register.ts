@@ -1,0 +1,16 @@
+import { BombTimers } from "../classic/components/BombTimers";
+import { PhaseCountdown } from "../classic/components/PhaseCountdown";
+import { PlayerCard } from "../classic/components/PlayerCard";
+import { Scoreboard } from "../classic/components/Scoreboard";
+import { TeamEconomy } from "../classic/components/TeamEconomy";
+import { DEFAULT_VARIANT, registerVariant } from "./registry";
+
+/**
+ * Variant registrations. To add a new look: create the component (matching
+ * its contract in `contracts.ts`) and add one `registerVariant` line here.
+ */
+registerVariant("scoreboard", { id: DEFAULT_VARIANT, label: "Classic", component: Scoreboard });
+registerVariant("player_stats", { id: DEFAULT_VARIANT, label: "Classic", component: PlayerCard });
+registerVariant("bomb_timer", { id: DEFAULT_VARIANT, label: "Classic", component: BombTimers });
+registerVariant("team_economy", { id: DEFAULT_VARIANT, label: "Classic", component: TeamEconomy });
+registerVariant("phase_countdown", { id: DEFAULT_VARIANT, label: "Classic", component: PhaseCountdown });
