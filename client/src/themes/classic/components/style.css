@@ -335,10 +335,6 @@
     gap: 2px;
     padding: 0;
 }
-.classic-layout__spacer {
-    width: 150px;
-    flex-shrink: 0;
-}
 
 /* ── RadarMap ───────────────────────────────────────── */
 .classic-radar {
