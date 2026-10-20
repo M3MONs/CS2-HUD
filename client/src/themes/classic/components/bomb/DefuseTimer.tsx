@@ -2,7 +2,7 @@ import { useRef } from "react";
 import { motion } from "framer-motion";
 import { useClassicPalette } from "@/themes/classic/useClassicPalette";
 import type { BombData } from "@/themes/classic/types";
-import "./style.css";
+import "./bomb.css";
 
 export const DefuseTimer = ({ bomb }: { bomb: BombData }) => {
     const C = useClassicPalette();

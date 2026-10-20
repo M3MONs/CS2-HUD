@@ -1,6 +1,6 @@
 import type { CSSProperties } from "react";
-import { hpC } from "../helpers";
-import type { ClassicPalette } from "../types";
+import { hpC } from "../../helpers";
+import type { ClassicPalette } from "../../types";
 
 /** CSS variables shared by every player_stats variant (card, bar…); the `.classic-player__*` parts read them. */
 export const playerVars = (

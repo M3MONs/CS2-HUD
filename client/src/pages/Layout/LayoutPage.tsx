@@ -10,7 +10,7 @@ import { useHudConfigStore } from "@/stores/HudConfigStore";
 import { ThemeOverrideContext } from "@/themes/ThemeOverrideContext";
 import { getThemeComponent } from "@/themes/registry";
 import type { ElementPosition, HudComponentId, HudTheme, ThemeLayout, ThemeVariants } from "@/types/hudConfig";
-import { clampPos, SLOT_ANCHORS } from "@/themes/classic/components/positionUtils";
+import { clampPos, SLOT_ANCHORS } from "@/themes/classic/components/layout/positionUtils";
 import LayoutToolbar from "./components/organisms/LayoutToolbar";
 import StyleModal from "./components/molecules/StyleModal";
 import AppearanceModal from "./components/molecules/AppearanceModal";

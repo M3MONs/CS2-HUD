@@ -1,9 +1,9 @@
 import { motion } from "framer-motion";
 import type { VariantProps } from "@/themes/variants/contracts";
 import { Variant } from "@/themes/variants/Variant";
-import { useClassicPalette } from "../useClassicPalette";
+import { useClassicPalette } from "../../useClassicPalette";
 import TeamPanel from "./TeamPanel";
-import "./style.css";
+import "./scoreboard.css";
 
 export const Scoreboard = ({ map, pc }: VariantProps["scoreboard"]) => {
     const C = useClassicPalette();

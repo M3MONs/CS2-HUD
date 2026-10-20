@@ -1,7 +1,7 @@
 import { useEffect, useRef } from "react";
-import { worldToRadar } from "../helpers";
-import { LERP, LERP_BOUNDS, MOVE_THRESHOLD, EXTRAP_MAX_MS, EXTRAP_MIN_DT } from "../constants";
-import type { SmoothPos, SmoothBounds, SmoothRadarParams } from "../types";
+import { worldToRadar } from "../../helpers";
+import { LERP, LERP_BOUNDS, MOVE_THRESHOLD, EXTRAP_MAX_MS, EXTRAP_MIN_DT } from "../../constants";
+import type { SmoothPos, SmoothBounds, SmoothRadarParams } from "../../types";
 
 const SHOOTING_CLASS = "classic-radar__marker--shooting";
 

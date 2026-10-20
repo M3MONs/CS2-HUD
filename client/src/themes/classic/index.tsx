@@ -2,13 +2,12 @@ import type { FC } from "react";
 import type { ThemeProps } from "../registry";
 import { AnimatePresence, motion } from "framer-motion";
 import { sorted } from "./helpers";
-import { RadarMap } from "./components";
+import { RadarMap } from "./components/radar/RadarMap";
 import { Variant } from "@/themes/variants/Variant";
 import "@/themes/variants/register";
-import Positioned from "./components/Positioned";
-import TeamSlot from "./components/TeamSlot";
+import Positioned from "./components/layout/Positioned";
+import TeamSlot from "./components/layout/TeamSlot";
 import type { GSIPlayer } from "@/types/gsi";
-import "./components/style.css";
 
 const BroadcastTheme: FC<ThemeProps> = ({
     data,

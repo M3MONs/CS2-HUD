@@ -1,8 +1,8 @@
 import { motion } from "framer-motion";
 import type { VariantProps } from "@/themes/variants/contracts";
-import { PHASE_L } from "../constants";
-import { useClassicPalette } from "../useClassicPalette";
-import "./style.css";
+import { PHASE_L } from "../../constants";
+import { useClassicPalette } from "../../useClassicPalette";
+import "./scoreboard.css";
 
 export const PhaseCountdown = ({ map, pc }: VariantProps["phase_countdown"]) => {
     const C = useClassicPalette();

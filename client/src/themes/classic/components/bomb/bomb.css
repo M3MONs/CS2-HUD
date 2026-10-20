@@ -1,0 +1,43 @@
+/* ── BombTimer ──────────────────────────────────────── */
+.classic-bomb {
+    font-family: var(--c-ff);
+    background: var(--c-bg);
+    border: 1px solid var(--c-bomb-border);
+    border-radius: 0 0 6px 6px;
+    padding: 4px 20px;
+    width: 108px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+    box-shadow: var(--c-bomb-shadow);
+    user-select: none;
+}
+.classic-bomb__label {
+    font-size: 8px;
+    font-weight: 700;
+    color: var(--c-w40);
+    letter-spacing: 0.20em;
+    text-align: center;
+}
+.classic-bomb__timer {
+    font-size: 24px;
+    font-weight: 800;
+    color: var(--c-timer-clr);
+    line-height: 1;
+    font-variant-numeric: tabular-nums;
+    text-shadow: var(--c-timer-shadow);
+}
+.classic-bomb__progress {
+    width: 48px;
+    height: 2px;
+    border-radius: 2px;
+    background: var(--c-w08);
+    overflow: hidden;
+}
+.classic-bomb__progress-fill {
+    height: 100%;
+    border-radius: 2px;
+    background: var(--c-timer-clr);
+}
+

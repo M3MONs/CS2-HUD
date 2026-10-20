@@ -2,6 +2,7 @@ import type { CSSProperties, ReactNode } from "react";
 import type { ElementPosition } from "@/types/hudConfig";
 import type { SlotAnchors } from "./positionUtils";
 import { useDragPosition } from "./useDragPosition";
+import "./layout.css";
 
 type PositionedProps = SlotAnchors & {
     position: ElementPosition;

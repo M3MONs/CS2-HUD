@@ -1,10 +1,13 @@
 import { motion } from "framer-motion";
 import { Variant } from "@/themes/variants/Variant";
 import type { VariantProps } from "@/themes/variants/contracts";
-import { useClassicPalette } from "../useClassicPalette";
-import { DeadOverlay, HpRow, KdaRow, PlayerAvatar, PlayerName, WeaponRow } from "./PlayerCard";
+import { useClassicPalette } from "../../useClassicPalette";
+import { DeadOverlay, KdaRow, PlayerAvatar, PlayerName } from "./parts/PlayerAtoms";
+import { HpRow } from "./parts/HpRow";
+import { WeaponRow } from "./parts/WeaponRow";
 import { playerVars } from "./playerVars";
-import "./style.css";
+import "./player.css";
+import "./playerBar.css";
 
 /**
  * `player_stats` variant "bars": one horizontal bar per player. The bar background

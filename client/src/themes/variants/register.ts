@@ -1,9 +1,9 @@
-import { BombTimers } from "../classic/components/BombTimers";
-import { PhaseCountdown } from "../classic/components/PhaseCountdown";
-import { PlayerBar } from "../classic/components/PlayerBar";
-import { PlayerCard } from "../classic/components/PlayerCard";
-import { Scoreboard } from "../classic/components/Scoreboard";
-import { TeamEconomy } from "../classic/components/TeamEconomy";
+import { BombTimers } from "../classic/components/bomb/BombTimers";
+import { PhaseCountdown } from "../classic/components/scoreboard/PhaseCountdown";
+import { PlayerBar } from "../classic/components/player/PlayerBar";
+import { PlayerCard } from "../classic/components/player/PlayerCard";
+import { Scoreboard } from "../classic/components/scoreboard/Scoreboard";
+import { TeamEconomy } from "../classic/components/player/TeamEconomy";
 import { DEFAULT_VARIANT, registerVariant } from "./registry";
 
 /**

@@ -1,0 +1,92 @@
+/* ── PlayerBar (player_stats variant "bars") ────────── */
+.classic-hbar {
+    --bar-h: 44px;
+    font-family: var(--c-ff);
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    width: 440px;
+    height: var(--bar-h);
+    padding-right: 10px;
+    background: var(--c-bg);
+    border-left: var(--c-player-border-w) solid var(--c-player-border-clr);
+    box-shadow: var(--c-player-shadow);
+    user-select: none;
+    flex-shrink: 0;
+}
+.classic-hbar--observed {
+    --bar-h: 48px;
+    width: 460px;
+}
+/* T mirrors CT: content flows right-to-left, accent edge and fill start at the right screen edge */
+.classic-hbar--t {
+    flex-direction: row-reverse;
+    padding-right: 0;
+    padding-left: 10px;
+    border-left: 0;
+    border-right: var(--c-player-border-w) solid var(--c-player-border-clr);
+}
+.classic-hbar__fill {
+    position: absolute;
+    z-index: -1;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    background: var(--c-team-glow);
+    pointer-events: none;
+}
+.classic-hbar--t .classic-hbar__fill {
+    left: auto;
+    right: 0;
+}
+.classic-hbar .classic-player__avatar-wrap {
+    flex: none;
+    width: var(--bar-h);
+    height: 100%;
+    aspect-ratio: auto;
+}
+.classic-hbar .classic-player__hp-row {
+    flex: none;
+    width: 72px;
+    padding: 0;
+    gap: 4px;
+    justify-content: flex-start;
+}
+.classic-hbar--t .classic-player__hp-row {
+    flex-direction: row-reverse;
+}
+.classic-hbar .classic-player__hp-equip {
+    position: static;
+    transform: none;
+}
+.classic-hbar .classic-player__name {
+    flex: 1;
+    min-width: 0;
+    padding: 0;
+    text-align: left;
+}
+.classic-hbar--t .classic-player__name {
+    text-align: right;
+}
+.classic-hbar .classic-player__kda {
+    flex: none;
+    min-width: 48px;
+    padding: 0;
+}
+.classic-hbar .classic-player__weapon-row {
+    flex: none;
+    width: calc(var(--c-weapon-w) + 68px);
+}
+.classic-hbar .classic-player__money {
+    flex: none;
+    min-width: 48px;
+    padding: 0;
+    text-align: right;
+}
+.classic-hbar--t .classic-player__money {
+    text-align: left;
+}
+
