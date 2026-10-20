@@ -78,7 +78,14 @@
     padding: 6px 10px;
     font-size: 0.8125rem;
     color: rgba(255, 255, 255, 0.85);
+    color-scheme: dark;
     outline: none;
+}
+
+/* Native dropdown popup ignores the translucent select background; keep options readable */
+.layout-toolbar__select option {
+    background: #171717;
+    color: rgba(255, 255, 255, 0.85);
 }
 
 .layout-toolbar__badge {

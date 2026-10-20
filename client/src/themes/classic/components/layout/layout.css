@@ -1,0 +1,22 @@
+/* ── BroadcastTheme layout ──────────────────────────── */
+.classic-layout__scoreboard,
+.classic-layout__bomb {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.classic-layout__players-inner {
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    gap: 2px;
+    padding: 0;
+}
+/* ── PlayerBar (player_stats variant "bars") ────────── */
+.classic-layout__players-inner--column {
+    flex-direction: column;
+    align-items: flex-start;
+}
+.classic-layout__players-inner--column[data-side="t"] {
+    align-items: flex-end;
+}

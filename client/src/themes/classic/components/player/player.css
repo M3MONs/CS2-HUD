@@ -1,0 +1,175 @@
+/* ── PlayerCard ─────────────────────────────────────── */
+.classic-player__avatar-wrap {
+    width: 100%;
+    aspect-ratio: 1;
+    overflow: hidden;
+}
+.classic-player__avatar {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    filter: var(--c-avatar-filter);
+}
+.classic-player {
+    font-family: var(--c-ff);
+    width: var(--c-player-w);
+    position: relative;
+    overflow: hidden;
+    background: var(--c-bg);
+    border-top: var(--c-player-border-w) solid var(--c-player-border-clr);
+    box-shadow: var(--c-player-shadow);
+    user-select: none;
+    flex-shrink: 0;
+}
+.classic-player__hp-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--c-hp-row-pad);
+    position: relative;
+}
+.classic-player__hp-equip {
+    position: absolute;
+    right: 5px;
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 2px;
+}
+.classic-player__hp-num {
+    font-size: var(--c-hp-num-size);
+    font-weight: 800;
+    color: var(--c-hp-num-clr);
+    line-height: 1;
+    font-variant-numeric: tabular-nums;
+}
+
+.classic-player__hp-bar {
+    height: 2px;
+    margin: 0 4px;
+    border-radius: 1px;
+    background: var(--c-w08);
+    overflow: hidden;
+}
+.classic-player__hp-fill {
+    height: 100%;
+    border-radius: 1px;
+    background: var(--c-hp-fill-clr);
+}
+.classic-player__name {
+    padding: 5px 4px 2px;
+    text-align: center;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-size: var(--c-name-size);
+    font-weight: var(--c-name-weight);
+    color: var(--c-name-clr);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+}
+.classic-player__kda {
+    display: flex;
+    justify-content: center;
+    gap: 2px;
+    font-size: var(--c-kda-size);
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+    padding: 2px 4px;
+    color: var(--c-w40);
+}
+.classic-player__kda-kills  { color: var(--c-w70); }
+.classic-player__kda-div    { color: var(--c-w20); }
+.classic-player__kda-deaths { color: var(--c-dead); }
+.classic-player__money {
+    padding: 2px 4px 6px;
+    text-align: center;
+    font-size: var(--c-money-size);
+    font-weight: 700;
+    color: var(--c-money);
+    font-variant-numeric: tabular-nums;
+    opacity: var(--c-money-opacity);
+}
+.classic-player__dead-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.55);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.classic-player__dead-text {
+    font-size: 9px;
+    font-weight: 800;
+    color: var(--c-dead);
+    letter-spacing: 0.2em;
+}
+.classic-player__weapon-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: var(--c-weapon-pad);
+    height: var(--c-weapon-h);
+    overflow: hidden;
+    flex-shrink: 0;
+}
+.classic-player__weapon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex: 0 0 var(--c-weapon-w);
+}
+.classic-player__weapon-img {
+    max-width: 100%;
+    max-height: var(--c-weapon-h);
+    width: auto;
+    height: auto;
+    display: block;
+    pointer-events: none;
+}
+.classic-player__grenades-left,
+.classic-player__grenades-right {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 2px;
+    flex: 1;
+}
+.classic-player__grenades-left  { justify-content: flex-end; }
+.classic-player__grenades-right { justify-content: flex-start; }
+.classic-player__grenade-slot {
+    position: relative;
+    width: var(--c-grenade-size);
+    height: var(--c-grenade-size);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.classic-player__grenade-img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    pointer-events: none;
+}
+.classic-player__grenade-count {
+    position: absolute;
+    bottom: -2px;
+    right: -3px;
+    font-size: 7px;
+    font-weight: 800;
+    color: rgba(255,255,255,0.9);
+    line-height: 1;
+    pointer-events: none;
+    text-shadow: 0 0 3px rgba(0,0,0,0.8);
+}
+
+.classic-player__equip-img {
+    width: var(--c-equip-size);
+    height: var(--c-equip-size);
+    object-fit: contain;
+    pointer-events: none;
+}
+

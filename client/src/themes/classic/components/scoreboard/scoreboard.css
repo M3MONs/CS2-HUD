@@ -1,0 +1,105 @@
+/* ── Scoreboard ─────────────────────────────────────── */
+.classic-scoreboard {
+    user-select: none;
+    font-family: var(--c-ff);
+}
+.classic-scoreboard__row {
+    display: flex;
+    align-items: stretch;
+}
+.classic-scoreboard__team {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 16px;
+    min-width: 400px;
+    background: var(--c-team-bg);
+    box-shadow: var(--c-team-shadow);
+}
+
+/* CT: label | name | ··· | score */
+.classic-scoreboard__team--ct .classic-scoreboard__score {
+    margin-left: auto;
+}
+
+/* T: score | ··· | name | label */
+.classic-scoreboard__team--t {
+    flex-direction: row-reverse;
+}
+.classic-scoreboard__team--t .classic-scoreboard__team-name {
+    text-align: right;
+}
+.classic-scoreboard__team--t .classic-scoreboard__score {
+    margin-right: auto;
+}
+
+.classic-scoreboard__team-label {
+    font-size: 16px;
+    font-weight: 700;
+    color: rgba(255, 255, 255, 0.55);
+    letter-spacing: 0.12em;
+}
+.classic-scoreboard__team-name {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--c-w90);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 300px;
+}
+.classic-scoreboard__score {
+    font-size: 32px;
+    font-weight: 800;
+    color: var(--c-w);
+    line-height: 1;
+    font-variant-numeric: tabular-nums;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.20);
+}
+.classic-scoreboard__center {
+    background: var(--c-bg);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 4px 20px;
+    min-width: 88px;
+    border-left: 1px solid var(--c-div);
+    border-right: 1px solid var(--c-div);
+    position: relative;
+}
+.classic-scoreboard__round {
+    font-size: 8px;
+    font-weight: 700;
+    color: var(--c-w40);
+    letter-spacing: 0.20em;
+    text-align: center;
+}
+.classic-scoreboard__timer {
+    font-size: 24px;
+    font-weight: 800;
+    color: var(--c-w);
+    line-height: 1;
+    font-variant-numeric: tabular-nums;
+    margin-top: 1px;
+}
+.classic-scoreboard__phase {
+    font-size: 8px;
+    font-weight: 700;
+    color: var(--c-phase-clr);
+    letter-spacing: 0.15em;
+    margin-top: 1px;
+}
+.classic-scoreboard__live-dot {
+    position: absolute;
+    top: 4px;
+    right: 6px;
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background: var(--c-hp-hi);
+    box-shadow: 0 0 5px var(--c-hp-hi);
+}
+

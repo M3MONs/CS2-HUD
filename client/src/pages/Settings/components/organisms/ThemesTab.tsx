@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { DEFAULT_THEME_LAYOUT, defaultTheme } from "@/consts/defaultTheme";
+import { DEFAULT_THEME_LAYOUT, DEFAULT_THEME_VARIANTS, defaultTheme } from "@/consts/defaultTheme";
 import { useHudConfigStore } from "@/stores/HudConfigStore";
 import type { HudTheme } from "@/types/hudConfig";
 import type { EditingState } from "../../type";
@@ -12,6 +12,7 @@ const createEmptyTheme = (): HudTheme => ({
     name: "",
     colors: { ...defaultTheme.colors, background: "#000000" },
     layout: { ...DEFAULT_THEME_LAYOUT },
+    variants: { ...DEFAULT_THEME_VARIANTS },
 });
 
 const ThemesTab = () => {

@@ -1,13 +1,10 @@
 export interface HudElementsVisibility {
     scoreboard: boolean;
     player_stats: boolean;
-    killfeed: boolean;
     minimap: boolean;
     bomb_timer: boolean;
-    round_info: boolean;
     team_economy: boolean;
     phase_countdown: boolean;
-    player_inventory: boolean;
 }
 
 export interface ThemeColors {
@@ -33,6 +30,16 @@ export interface ThemeLayout {
     minimap: ElementPosition;
 }
 
+export type HudComponentId =
+    | "scoreboard"
+    | "player_stats"
+    | "bomb_timer"
+    | "team_economy"
+    | "phase_countdown";
+
+/** Selected appearance variant id per swappable HUD component. */
+export type ThemeVariants = Record<HudComponentId, string>;
+
 export interface HudTheme {
     id: string;
     name: string;
@@ -41,6 +48,7 @@ export interface HudTheme {
     border_radius: string;
     opacity: number;
     layout: ThemeLayout;
+    variants: ThemeVariants;
 }
 
 export interface HudConfig {

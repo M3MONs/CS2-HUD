@@ -1,7 +1,7 @@
 import type { ThemeProps } from "@/themes/registry";
 import { motion } from "framer-motion";
 import { useClassicPalette } from "@/themes/classic/useClassicPalette";
-import "./style.css";
+import "./bomb.css";
 
 export const BombTimer = ({ bomb }: { bomb: NonNullable<ThemeProps["data"]["bomb"]> }) => {
     const C = useClassicPalette();

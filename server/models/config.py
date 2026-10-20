@@ -1,19 +1,17 @@
 import re
+from typing import Annotated
 
-from pydantic import BaseModel, Field, field_validator
+from pydantic import BaseModel, Field, StringConstraints, field_validator
 
 
 class HudElementVisibility(BaseModel):
     """Defines which HUD elements are visible in the overlay."""
     scoreboard: bool = True
     player_stats: bool = True
-    killfeed: bool = True
     minimap: bool = True
     bomb_timer: bool = True
-    round_info: bool = True
     team_economy: bool = True
     phase_countdown: bool = True
-    player_inventory: bool = True
 
 
 class ThemeColors(BaseModel):
@@ -42,6 +40,21 @@ class ThemeLayout(BaseModel):
     minimap: ElementPosition = Field(default_factory=lambda: ElementPosition(x=1, y=2))
 
 
+VariantId = Annotated[str, StringConstraints(pattern=r"^[a-z0-9][a-z0-9_-]{0,63}$")]
+
+
+class ThemeVariants(BaseModel):
+    """Selected appearance variant per swappable HUD component.
+
+    Variants are registered client-side; the server only stores the chosen id.
+    """
+    scoreboard: VariantId = "default"
+    player_stats: VariantId = "default"
+    bomb_timer: VariantId = "default"
+    team_economy: VariantId = "default"
+    phase_countdown: VariantId = "default"
+
+
 class HudTheme(BaseModel):
     """Defines a HUD theme with its properties."""
     id: str
@@ -51,6 +64,7 @@ class HudTheme(BaseModel):
     border_radius: str = "4px"
     opacity: float = 0.9
     layout: ThemeLayout = Field(default_factory=ThemeLayout)
+    variants: ThemeVariants = Field(default_factory=ThemeVariants)
 
     @field_validator("id")
     @classmethod

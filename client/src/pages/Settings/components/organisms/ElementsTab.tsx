@@ -5,13 +5,10 @@ import Toggle from "../atoms/Toggle";
 const ELEMENT_LABELS: Record<keyof HudElementsVisibility, string> = {
     scoreboard: "Scoreboard",
     player_stats: "Player Stats",
-    killfeed: "Kill Feed",
     minimap: "Minimap",
     bomb_timer: "Bomb Timer",
-    round_info: "Round Info",
     team_economy: "Team Economy",
     phase_countdown: "Phase Countdown",
-    player_inventory: "Player Inventory",
 };
 
 const ElementsTab = () => {

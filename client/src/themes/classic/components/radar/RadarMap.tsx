@@ -1,13 +1,13 @@
 import { useMemo, useState, useCallback } from "react";
 import type { CSSProperties } from "react";
-import { fallbackMapImageUrl, parsePosition, radarImageUrl, worldToRadar } from "../helpers";
-import { useClassicPalette } from "../useClassicPalette";
-import type { RadarMapProps, RadarMarker } from "../types";
+import { fallbackMapImageUrl, parsePosition, radarImageUrl, worldToRadar } from "../../helpers";
+import { useClassicPalette } from "../../useClassicPalette";
+import type { RadarMapProps, RadarMarker } from "../../types";
 import { PlantedBomb } from "./PlantedBomb";
 import { RadarMarkerDot } from "./RadarMarkerDot";
 import { useShootingDetection } from "./useShootingDetection";
 import { useSmoothRadar } from "./useSmoothRadar";
-import "./style.css";
+import "./radar.css";
 import type { GSIPlayer } from "@/types/gsi";
 
 export const RadarMap = ({ mapName, players, bombPosition }: RadarMapProps) => {

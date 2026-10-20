@@ -1,5 +1,5 @@
 import { memo } from "react";
-import type { RadarMarkerDotProps } from "../types";
+import type { RadarMarkerDotProps } from "../../types";
 
 export const RadarMarkerDot = memo(function RadarMarkerDot({
     steamid,

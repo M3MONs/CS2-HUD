@@ -6,7 +6,9 @@ import {
 } from "react";
 import type { ElementPosition, ThemeLayout } from "@/types/hudConfig";
 import type { LayoutToolbarProps } from "../../type";
+import { LAYOUT_KEY_COMPONENT } from "../../consts";
 import AlignBar from "../molecules/AlignBar";
+import VariantPicker from "../molecules/VariantPicker";
 
 type Props = LayoutToolbarProps & {
     selectedKey: keyof ThemeLayout | null;
@@ -46,6 +48,9 @@ const LayoutToolbar = ({
     onSelectTheme,
     onNavigateHome,
     onOpenColors,
+    onOpenAppearance,
+    variants,
+    onVariantChange,
     onResetLayout,
     onSave,
     onDiscard,
@@ -64,6 +69,7 @@ const LayoutToolbar = ({
         originY: number;
     } | null>(null);
     const [pos, setPos] = useState<PanelPos | null>(null);
+    const selectedComponentId = selectedKey ? LAYOUT_KEY_COMPONENT[selectedKey] : undefined;
 
     useLayoutEffect(() => {
         const el = stackRef.current;
@@ -194,6 +200,14 @@ const LayoutToolbar = ({
                 <button
                     type="button"
                     className="layout-toolbar__btn layout-toolbar__btn--primary"
+                    onClick={onOpenAppearance}
+                >
+                    Appearance
+                </button>
+
+                <button
+                    type="button"
+                    className="layout-toolbar__btn layout-toolbar__btn--primary"
                     onClick={onSave}
                     disabled={!isDirty}
                 >
@@ -220,6 +234,14 @@ const LayoutToolbar = ({
 
             {selectedKey && selectedPosition && (
                 <AlignBar layoutKey={selectedKey} position={selectedPosition} onChange={onPositionChange} />
+            )}
+
+            {selectedComponentId && (
+                <VariantPicker
+                    componentId={selectedComponentId}
+                    value={variants[selectedComponentId]}
+                    onChange={onVariantChange}
+                />
             )}
         </div>
     );
