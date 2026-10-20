@@ -23,9 +23,14 @@ export const PlayerBar = ({ player, observed, side }: VariantProps["player_stats
     const style = {
         ...playerVars(C, side, observed, state.health),
         "--c-team-glow": team.glow,
-        "--c-grenade-size": observed ? "16px" : "14px",
-        "--c-weapon-w": observed ? "50px" : "46px",
-        "--c-weapon-h": observed ? "32px" : "28px",
+        "--c-hp-num-size": observed ? "32px" : "29px",
+        "--c-name-size": observed ? "15px" : "14px",
+        "--c-kda-size": observed ? "14px" : "13px",
+        "--c-money-size": observed ? "15px" : "14px",
+        "--c-equip-size": observed ? "16px" : "14px",
+        "--c-grenade-size": observed ? "18px" : "16px",
+        "--c-weapon-w": observed ? "58px" : "54px",
+        "--c-weapon-h": observed ? "36px" : "32px",
         "--c-weapon-pad": "0",
     } as React.CSSProperties;
 

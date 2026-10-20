@@ -1,6 +1,6 @@
 /* ── PlayerBar (player_stats variant "bars") ────────── */
 .classic-hbar {
-    --bar-h: 44px;
+    --bar-h: 50px;
     font-family: var(--c-ff);
     position: relative;
     isolation: isolate;
@@ -8,7 +8,7 @@
     display: flex;
     align-items: center;
     gap: 6px;
-    width: 440px;
+    width: 520px;
     height: var(--bar-h);
     padding-right: 10px;
     background: var(--c-bg);
@@ -18,8 +18,8 @@
     flex-shrink: 0;
 }
 .classic-hbar--observed {
-    --bar-h: 48px;
-    width: 460px;
+    --bar-h: 54px;
+    width: 580px;
 }
 /* T mirrors CT: content flows right-to-left, accent edge and fill start at the right screen edge */
 .classic-hbar--t {
@@ -50,13 +50,21 @@
 }
 .classic-hbar .classic-player__hp-row {
     flex: none;
-    width: 72px;
+    width: 104px;
     padding: 0;
     gap: 4px;
     justify-content: flex-start;
 }
 .classic-hbar--t .classic-player__hp-row {
     flex-direction: row-reverse;
+}
+/* Fixed 3-digit slot so armor/defuse icons stay put regardless of hp (observed player keeps the flowing layout) */
+.classic-hbar:not(.classic-hbar--observed) .classic-player__hp-num {
+    min-width: 3ch;
+    text-align: left;
+}
+.classic-hbar--t:not(.classic-hbar--observed) .classic-player__hp-num {
+    text-align: right;
 }
 .classic-hbar .classic-player__hp-equip {
     position: static;
@@ -66,6 +74,7 @@
     flex: 1;
     min-width: 0;
     padding: 0;
+    text-overflow: clip;
     text-align: left;
 }
 .classic-hbar--t .classic-player__name {
@@ -78,7 +87,8 @@
 }
 .classic-hbar .classic-player__weapon-row {
     flex: none;
-    width: calc(var(--c-weapon-w) + 68px);
+    /* weapon + two grenade slots (2 icons + gap) per side, so the outer grenade is never clipped */
+    width: calc(var(--c-weapon-w) + var(--c-grenade-size) * 4 + 4px);
 }
 .classic-hbar .classic-player__money {
     flex: none;
